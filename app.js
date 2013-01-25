@@ -1,11 +1,14 @@
 var express = require('express')
-  ,connect = require('connect')
-  ,app = express();
+	,search = require('./server/search')
+	,onair = require('./server/onair')
+	,voter = require('./server/voter')
+	,app = express();
 
+app.use(express.logger());
+app.use(express.static(__dirname + '/client'));
 
-app.configure(function(){
-  app.use(express.static(__dirname + '/client'));
-  app.use(connect.logger('dev'));
-});
+app.get('/api/search', search());
+app.get('/api/tracks', onair());
+app.put('/api/tracks/:id/vote', voter());
 
 app.listen(80);
