@@ -1,13 +1,15 @@
 {
   "name": "kaffeeundkuchen",
   "version": "0.0.1",
-  "description": "Rock your party with this crowd driven spotify player.",
+  "description": "kaffeeundkuchen - coffee and pi: Rock your party with this crowd driven spotify player.",
   "main": "app.js",
   "repository": "http://github.com/swissmanu/kaffeeundkuchen",
   "author": "Manuel Alabor",
   "license": "MIT",
   "dependencies": {
-    "airtunes": "~0.1.3",
-    "optimist": "~0.3.5"
+    "airtunes": "git://github.com/swissmanu/node_airtunes.git",
+    "optimist": "~0.3.5",
+    "connect": "~2.7.2",
+    "express": "~3.0.6"
   }
 }
