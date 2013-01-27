@@ -4,10 +4,11 @@ var mdns = require('mdns')
 	,Search = require('./server/search')
 	,OnAir = require('./server/onair')
 	,Voter = require('./server/voter')
-	,config = require('./config/config')
-	,log = require('./config/logger');
+	,Log = require('./config/logger')
+	,config = require('./config/config');
+	
 
-log.info('Starting KaffeeUndKuchen');
+Log.info('Starting KaffeeUndKuchen');
 
 var app = createExpressApp(config)
 	,server = createAdvertableServerFromExpressApp(app, config);
@@ -36,10 +37,10 @@ function createAdvertableServerFromExpressApp(app, config) {
 	var server = http.createServer(app)
 		,announce = config.server.announceWithBonjour || false;
 
-	log.info('Listening on Port ' + config.server.port);
+	Log.info('Listening on Port ' + config.server.port);
 
 	if(announce) {
-		log.info('Announcing Port ' + config.server.port + ' with Bonjour');
+		Log.info('Announcing Port ' + config.server.port + ' with Bonjour');
 		server.on('listening', function() {
 			var advertisment = mdns.createAdvertisement(mdns.tcp('http'), config.server.port, { name: 'KaffeeUndKuchen' } );
 			advertisment.start();
