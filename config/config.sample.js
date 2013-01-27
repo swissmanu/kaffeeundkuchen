@@ -1,6 +1,11 @@
 /** File: config.sample.js
  * Create a copy of this file named "config.js" and modify it to your needs.
  *
+ * Server:
+ * Port:
+ *  On which network port should the KaffeeUndKuchen server be listening fot
+ *  connections?
+ *
  * Spotify Settings:
  * This section contains all stuff related to Spotify. Login to spotify.com and
  * make sure you have a Spotify premium account.
@@ -16,7 +21,10 @@
  *  in a proper place and make sure "appkeyfile" referes to that file.
  */
 var config = {
-	spotify: {
+	server: {
+		port: 80
+	}
+	,spotify: {
 		username: 'username'
 		,password: 'password'
 		,appkeyfile: 'config/spotify_appkey.key'	
