@@ -4,9 +4,10 @@ var mdns = require('mdns')
 	,app = express()
 	,search = require('./server/search')
 	,onair = require('./server/onair')
-	,voter = require('./server/voter');
+	,voter = require('./server/voter')
+	,config = require('./config/config');
 
-var app = createExpressApp()
+var app = createExpressApp(config)
 	,server = createAdvertableServerFromExpressApp(app);
 
 server.listen(80);
@@ -19,9 +20,9 @@ function createExpressApp() {
 	app.use(express.logger());
 	app.use(express.static(__dirname + '/client'));
 
-	app.get('/api/search', search());
-	app.get('/api/tracks', onair());
-	app.put('/api/tracks/:id/vote', voter());
+	app.get('/api/search', search(config));
+	app.get('/api/tracks', onair(config));
+	app.put('/api/tracks/:id/vote', voter(config));
 }
 
 /**

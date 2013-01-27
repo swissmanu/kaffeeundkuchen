@@ -15,12 +15,12 @@
  *  Apply for an app key and download the binary version of it. Place it
  *  in a proper place and make sure "appkeyfile" referes to that file.
  */
- module.exports = function() {
-	return {
-		spotify: {
-			username: 'username'
-			,password: 'password'
-			,appkeyfile: 'config/spotify_appkey.key'	
-		}
-	};
-}
+var config = {
+	spotify: {
+		username: 'username'
+		,password: 'password'
+		,appkeyfile: 'config/spotify_appkey.key'	
+	}
+};
+
+module.exports = config;
