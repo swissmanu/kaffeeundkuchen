@@ -1,13 +1,13 @@
 var mdns = require('mdns')
 	,express = require('express')
 	,http = require('http')
-	,Search = require('./server/search')
-	,OnAir = require('./server/onair')
-	,AddTrack = require('./server/addtrack')
-	,Voter = require('./server/voter')
+	,Search = require('./routes/search')
+	,OnAir = require('./routes/onair')
+	,AddTrack = require('./routes/addtrack')
+	,Voter = require('./routes/voter')
 	,Log = require('./config/logger')
 	,config = require('./config/config')
-	,Playlist = require('./server/playlist');
+	,Playlist = require('./models/playlist');
 
 Log.info('Starting KaffeeUndKuchen');
 

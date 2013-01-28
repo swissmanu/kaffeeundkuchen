@@ -1,6 +1,9 @@
 var Log = require('../config/logger.js');
 
-module.exports = function OnAir(config, playlist) {
+/** Route: AddTrack
+ *
+ */
+module.exports = function AddTrack(config, playlist) {
 
 	function handleRequest(req, res) {
 		var input = req.body
