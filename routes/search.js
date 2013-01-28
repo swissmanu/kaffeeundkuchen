@@ -18,9 +18,9 @@ var Search = function Search(config) {
 				,content : {}
 			};
 
-		if(validateInput(input)) {
-			Log.info('Handling Search request', input);
+		Log.info('Route: Search');
 
+		if(validateInput(input)) {
 			var tracks = spotifyWrapper.searchTrack(input.artist, input.track);
 			responseData.content = tracks;
 		} else {

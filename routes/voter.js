@@ -3,8 +3,11 @@
 module.exports = function Voter(config) {
 
 	var handleRequest = function handleRequest(req, res) {
-		var id = req.params.id;
-		res.json(200, {'id': id});
+		var spotifyId = req.params.spotifyId;
+
+		Log.info('Route: Voter', input);
+
+		res.json(200, {'spotifyId': spotifyId});
 	};
 
 	return handleRequest;

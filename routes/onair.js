@@ -11,6 +11,8 @@ module.exports = function OnAir(config, playlist) {
 				,content : playlist.getTracks()
 			};
 		
+			Log.info('Route: OnAir');
+
 		res.json(responseData.statusCode, responseData.content);
 	}
 
