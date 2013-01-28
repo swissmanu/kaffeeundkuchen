@@ -18,13 +18,17 @@ var SpotifyWrapper = function SpotifyWrapper() {
 		,_spotify_session = undefined;
 
 	/** Method: searchTrack
-	 * Searches for music tracks using the given search criteria (arist and
+	 * Searches for music tracks using the given search criteria (arist and/or
 	 * track name).
+	 * If no Spotify session exists, a new one gets created. If the session was
+	 * not logged in before, login is executed automatically before the search
+	 * gets executed.
 	 *
 	 * Parameters:
 	 *     (String) artist - The performing artist
 	 *     (String) track - Track name
-	 *     (Function) callback
+	 *     (Function) callback - Executed after the search was finished
+	 *                           Parameters: [(Array)tracks]
 	 */
 	_self.searchTrack = function searchTrack(artist, track, callback) {
 
@@ -100,7 +104,8 @@ var SpotifyWrapper = function SpotifyWrapper() {
 		search.trackCount = _config.spotify.maxResults;
 		search.execute();
 		search.on('ready', function() {
-			callback(search.tracks);
+			var preparedTracks = _prepareSpotifyTracks(search.tracks);
+			callback(preparedTracks);
 		});
 	};
 
@@ -124,6 +129,30 @@ var SpotifyWrapper = function SpotifyWrapper() {
 		}
 
 		return queryString;
+	}
+
+	/** PrivateFunction: _prepareSpotifyTracks
+	 * Takes an Array with Spotify Track information and reformats it for
+	 * KaffeeUndKuchen.
+	 *
+	 * Paramaters:
+	 *     (Array) spotifyTracks
+	 *
+	 * Returns:
+	 *     (Array)
+	 */
+	var _prepareSpotifyTracks = function prepareSpotifyTracks(spotifyTracks) {
+		var preparedTracks = [];
+
+		spotifyTracks.forEach(function(spotifyTrack) {
+			preparedTracks.push({
+				artist: spotifyTrack.artist.name
+				,track: spotifyTrack.name
+				,spotifyId: spotifyTrack.getUrl().replace(/:/g,'-')
+			});
+		});
+
+		return preparedTracks;
 	}
 
 };
