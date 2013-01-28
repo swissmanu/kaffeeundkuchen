@@ -73,7 +73,7 @@ var SpotifyWrapper = function SpotifyWrapper() {
 	 */
 	_self.getCachedTrack = function getCachedTrack(spotifyId) {
 		var cachedTrack = undefined;
-
+		
 		if(_trackCache[spotifyId] !== undefined) {
 			cachedTrack = _trackCache[spotifyId];
 		}
@@ -83,7 +83,7 @@ var SpotifyWrapper = function SpotifyWrapper() {
 
 	_self.setConfig = function setConfig(config) {
 		_config = config;
-	}
+	};
 
 	/** PrivateMethod: _searchTrack
 	 * 
