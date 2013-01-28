@@ -3,14 +3,16 @@ var mdns = require('mdns')
 	,http = require('http')
 	,Search = require('./server/search')
 	,OnAir = require('./server/onair')
+	,AddTrack = require('./server/addtrack')
 	,Voter = require('./server/voter')
 	,Log = require('./config/logger')
-	,config = require('./config/config');
-	
+	,config = require('./config/config')
+	,Playlist = require('./server/playlist');
 
 Log.info('Starting KaffeeUndKuchen');
 
-var app = createExpressApp(config)
+var playlist = new Playlist()
+	,app = createExpressApp(config, playlist)
 	,server = createAdvertableServerFromExpressApp(app, config);
 
 server.listen(config.server.port);
@@ -18,14 +20,16 @@ server.listen(config.server.port);
 /**
  *
  */
-function createExpressApp() {
+function createExpressApp(config, playlist) {
 	var app = express();
 
 	app.use(express.static(__dirname + '/client'));
+	app.use(express.bodyParser());
 
-	app.get('/api/search', Search(config));
-	app.get('/api/tracks', OnAir(config));
-	app.put('/api/tracks/:id/vote', Voter(config));
+	app.post('/api/search', Search(config));
+	app.get('/api/tracks', OnAir(config, playlist));
+	app.post('/api/tracks', AddTrack(config, playlist));
+	app.put('/api/tracks/:id/vote', Voter(config, playlist));
 
 	return app;
 }
