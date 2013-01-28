@@ -1,7 +1,7 @@
 'use strict';
 
 var Log = require('../config/logger.js')
-	,spotifyWrapper = require('../util/spotifywrapper');
+	,spotifyWrapper = require('../utils/spotifywrapper');
 
 var Search = function Search(config) {
 	var _self = this

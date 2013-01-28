@@ -1,7 +1,7 @@
 'use strict';
 
 var Log = require('../config/logger.js')
-	,spotifyWrapper = require('../util/spotifyWrapper');
+	,spotifyWrapper = require('../utils/spotifyWrapper');
 
 /** Route: AddTrack
  *
@@ -15,10 +15,20 @@ module.exports = function AddTrack(config, playlist) {
 				,content : playlist.getTracks()
 			};
 
-		if(validateInput(input)) {
-			Log.info('Add track', input);
+		Log.info('Route: AddTrack');
 
-			playlist.addTrack(input.spotifyId, '', '');
+		if(validateInput(input)) {
+			var spotifyTrack = spotifyWrapper.getCachedTrack(input.spotifyId);
+			if(spotifyTrack === undefined) {
+				Log.warn('Track not found in cache. Probably not searched before?', {spotifyId: input.spotifyId});
+				responseData.statusCode = 400;
+			} else {
+				playlist.addTrack(
+					spotifyTrack.spotifyId
+					,spotifyTrack.artist
+					,spotifyTrack.track
+				);
+			}
 		} else {
 			Log.warn('Invalid request to add track', input);
 			responseData.statusCode = 400;

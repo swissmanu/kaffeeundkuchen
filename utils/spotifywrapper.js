@@ -12,7 +12,8 @@ var Log = require('../config/logger.js')
  */
 var SpotifyWrapper = function SpotifyWrapper() {
 	var _self = this
-		,_config = {};
+		,_config = {}
+		,_trackCache = {};
 
 	/** Method: searchTrack
 	 * Searches for music tracks using the given search criteria (arist and
@@ -40,12 +41,21 @@ var SpotifyWrapper = function SpotifyWrapper() {
 	 *     (String) spotifyId - ID of the desired track information
 	 * 
 	 * Returns:
-	 *     (Object)
+	 *     (Object) || undefined
 	 */
 	_self.getCachedTrack = function getCachedTrack(spotifyId) {
-		Log.warn('Implement SpotifyWrapper.getCachedTrack!');
-		return {};
+		var cachedTrack = undefined;
+
+		if(_trackCache[spotifyId] !== undefined) {
+			cachedTrack = _trackCache[spotifyId];
+		}
+
+		return cachedTrack;
 	};
+
+	_self.setConfig = function setConfig(config) {
+		_config = config;
+	}
 
 };
 
@@ -57,6 +67,7 @@ SpotifyWrapper.getInstance = function getInstance() {
 	if(this._instance === undefined) {
 		this._instance = new SpotifyWrapper();
 	}
+
 	return this._instance;
 }
 

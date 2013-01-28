@@ -9,7 +9,8 @@ var mdns = require('mdns')
 	,Voter = require('./routes/voter')
 	,Log = require('./config/logger')
 	,config = require('./config/config')
-	,Playlist = require('./models/playlist');
+	,Playlist = require('./models/playlist')
+	,spotifyWrapper = require('./utils/spotifywrapper');
 
 Log.info('Starting KaffeeUndKuchen');
 
@@ -17,6 +18,7 @@ var playlist = new Playlist()
 	,app = createExpressApp(config, playlist)
 	,server = createAdvertableServerFromExpressApp(app, config);
 
+spotifyWrapper.setConfig(config);
 server.listen(config.server.port);
 
 /**
