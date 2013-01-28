@@ -1,3 +1,5 @@
+'use strict';
+
 var Log = require('../config/logger.js');
 
 /** Route: AddTrack

@@ -1,11 +1,14 @@
+'use strict';
+
 var Log = require('../config/logger.js');
 
-module.exports = function Search(config) {
-	var dummySearchResult = [{
-		spotifyid:'akjsdfhaslöhalsjgladfjgldjg834r'
-		,artist:'Hans Zimmer'
-		,track:'Dream is Collapsing'
-	}];
+var Search = function Search(config, spotifyWrapper) {
+	var _self = this
+		,_dummySearchResult = [{
+			spotifyid:'akjsdfhaslöhalsjgladfjgldjg834r'
+			,artist:'Hans Zimmer'
+			,track:'Dream is Collapsing'
+		}];
 
 	function handleRequest(req, res) {
 		var input = req.body
@@ -18,7 +21,7 @@ module.exports = function Search(config) {
 			Log.info('Handling Search request', input);
 			
 			// do spotify magic
-			responseData.content = dummySearchResult;
+			responseData.content = _dummySearchResult;
 		} else {
 			Log.warn('Invalid Search request', input)
 			responseData.statusCode = 400; // Bad Request
@@ -34,3 +37,5 @@ module.exports = function Search(config) {
 
 	return handleRequest;
 };
+
+module.exports = Search;

@@ -1,3 +1,5 @@
+'use strict';
+
 var Log = require('../config/logger.js');
 
 module.exports = function OnAir(config, playlist) {

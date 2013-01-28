@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function Voter(config) {
 	return function(req, res) {
 		var id = req.params.id;

@@ -1,3 +1,5 @@
+'use strict';
+
 var mdns = require('mdns')
 	,express = require('express')
 	,http = require('http')
@@ -7,12 +9,14 @@ var mdns = require('mdns')
 	,Voter = require('./routes/voter')
 	,Log = require('./config/logger')
 	,config = require('./config/config')
-	,Playlist = require('./models/playlist');
+	,Playlist = require('./models/playlist')
+	,SpotifyWrapper = require('./util/spotifywrapper');
 
 Log.info('Starting KaffeeUndKuchen');
 
 var playlist = new Playlist()
-	,app = createExpressApp(config, playlist)
+	,spotifyWrapper = new SpotifyWrapper()
+	,app = createExpressApp(config, playlist, spotifyWrapper)
 	,server = createAdvertableServerFromExpressApp(app, config);
 
 server.listen(config.server.port);
@@ -20,13 +24,13 @@ server.listen(config.server.port);
 /**
  *
  */
-function createExpressApp(config, playlist) {
+function createExpressApp(config, playlist, spotifyWrapper) {
 	var app = express();
 
 	app.use(express.static(__dirname + '/client'));
 	app.use(express.bodyParser());
 
-	app.post('/api/search', Search(config));
+	app.post('/api/search', Search(config, spotifyWrapper));
 	app.get('/api/tracks', OnAir(config, playlist));
 	app.post('/api/tracks', AddTrack(config, playlist));
 	app.put('/api/tracks/:id/vote', Voter(config, playlist));
