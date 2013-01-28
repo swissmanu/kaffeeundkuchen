@@ -10,8 +10,8 @@
 <body>
 	<div data-role="page" id="onair">
 		<div data-role="header">
-			<h1>On Air</h1>
-			<a href="#vote" data-transition="flip" class="ui-btn-right">Vote</a>
+			<h1>Now Playing</h1>
+			<a href="#vote" data-transition="flip" class="ui-btn-right">Playlist</a>
 		</div>
 
 		<div data-role="content">
@@ -27,9 +27,9 @@
 
 	<div data-role="page" id="vote">
 		<div data-role="header" data-position="fixed">
-			<a href="#add" data-transition="slideup" data-icon="add">Add Track</a>
-			<h1>Vote</h1>
-			<a href="#onair" data-transition="flip" class="ui-btn-right">On Air</a>
+			<a href="#search" data-transition="slideup" data-icon="add">Add Track</a>
+			<h1>Playlist</h1>
+			<a href="#onair" data-transition="flip" class="ui-btn-right">Now Playing</a>
 		</div>
 
 		<div data-role="content">
@@ -69,7 +69,8 @@
 					<img class="artwork" src="images/demoartwork.jpg" />
 					<h2 class="artist">Hans Zimmer</h2>
 					<h1 class="title">Dream is Collapsing</h1>
-				</li>				<li>
+				</li>
+				<li>
 					<img class="artwork" src="images/demoartwork.jpg" />
 					<h2 class="artist">Hans Zimmer</h2>
 					<h1 class="title">Dream is Collapsing</h1>
@@ -78,14 +79,13 @@
 		</div>
 	</div>
 
-	<div data-role="page" id="add">
+	<div data-role="page" id="search">
 		<div data-role="header" data-position="fixed">
-			<a href="#vote" data-transition="slidedown">Add</a>
 			<h1>Add Track</h1>
 			<a href="#vote" data-transition="slidedown" class="ui-btn-right">Cancel</a>
 		</div>
 		<div data-role="content">
-			<form action="#" method="post">
+			<form action="#add" method="get" data-ajax="false">
 				<ul data-role="listview">
 					<li data-role="list-divider">Step 1: Search</li>
 					<li data-role="fieldcontain" class="ui-hide-label">
@@ -98,6 +98,26 @@
 					</li>
 					<li data-role="fieldcontain">
 						<input type="submit" value="Search" />
+					</li>
+				</ul>
+			</form>
+		</div>
+	</div>
+
+	<div data-role="page" id="add">
+		<div data-role="header" data-position="fixed">
+			<a data-rel="back" data-direction="reverse" data-icon="arrow-l">Back</a>
+			<h1>Add Track</h1>
+			<a href="#vote" data-transition="slidedown" class="ui-btn-right">Cancel</a>
+		</div>
+		<div data-role="content">
+			<form action="#" method="post">
+				<ul data-role="listview">
+					<li data-role="list-divider">Step 2: Select Track</li>
+					<li>
+						<img class="artwork" src="images/demoartwork.jpg" />
+						<h2 class="artist">Hans Zimmer</h2>
+						<h1 class="title">Dream is Collapsing</h1>
 					</li>
 				</ul>
 			</form>
