@@ -21,14 +21,14 @@ var Search = function Search(config) {
 		Log.info('Route: Search');
 
 		if(validateInput(input)) {
-			var tracks = spotifyWrapper.searchTrack(input.artist, input.track);
-			responseData.content = tracks;
+			var tracks = spotifyWrapper.searchTrack(input.artist, input.track, function(tracks) {
+				res.json(200, tracks);
+			});			
 		} else {
 			Log.warn('Invalid Search request', input)
 			responseData.statusCode = 400; // Bad Request
+			res.json(responseData.statusCode, responseData.content);
 		}
-		
-		res.json(responseData.statusCode, responseData.content);
 	};
 
 	var validateInput = function validateInput(input) {
