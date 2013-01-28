@@ -31,7 +31,8 @@ var config = {
 	,spotify: {
 		username: 'username'
 		,password: 'password'
-		,appkeyfile: 'config/spotify_appkey.key'	
+		,appKeyFile: 'config/spotify_appkey.key'
+		,maxResults: 20
 	}
 };
 

@@ -30,7 +30,7 @@ var SpotifyWrapper = function SpotifyWrapper() {
 
 		if(_spotify_session == undefined) {
 			_spotify_session = new spotify.Session({
-				applicationKey: __dirname + '/../' + _config.spotify.appkeyfile
+				applicationKey: __dirname + '/../' + _config.spotify.appKeyFile
 			});
 		}
 
@@ -97,7 +97,7 @@ var SpotifyWrapper = function SpotifyWrapper() {
 			,queryString = _buildQueryString(queryData)
 			,search = new spotify.Search(queryString);
 		
-		search.trackCount = 20;
+		search.trackCount = _config.spotify.maxResults;
 		search.execute();
 		search.on('ready', function() {
 			callback(search.tracks);
