@@ -6,11 +6,13 @@ var Log = require('../config/logger.js')
 
 /** Class: SpotifyWrapper
  * Wraps around the libspotify NodeJS module.
+ *
+ * This is thought as a singleton! Just use `require("util/spotifywrapper")` and
+ * you are good to go :-)
  */
-var SpotifyWrapper = function SpotifyWrapper(config) {
+var SpotifyWrapper = function SpotifyWrapper() {
 	var _self = this
-		,_config = config || {};
-
+		,_config = {};
 
 	/** Method: searchTrack
 	 * Searches for music tracks using the given search criteria (arist and
@@ -44,8 +46,18 @@ var SpotifyWrapper = function SpotifyWrapper(config) {
 		Log.warn('Implement SpotifyWrapper.getCachedTrack!');
 		return {};
 	};
+
 };
 
 Util.inherits(SpotifyWrapper, EventEmitter);
 
-module.exports = SpotifyWrapper;
+/* Singleton Stuff: */
+SpotifyWrapper._instance = undefined;
+SpotifyWrapper.getInstance = function getInstance() {
+	if(this._instance === undefined) {
+		this._instance = new SpotifyWrapper();
+	}
+	return this._instance;
+}
+
+module.exports = SpotifyWrapper.getInstance();

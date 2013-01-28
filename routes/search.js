@@ -1,8 +1,9 @@
 'use strict';
 
-var Log = require('../config/logger.js');
+var Log = require('../config/logger.js')
+	,spotifyWrapper = require('../util/spotifywrapper');
 
-var Search = function Search(config, spotifyWrapper) {
+var Search = function Search(config) {
 	var _self = this
 		,_dummySearchResult = [{
 			spotifyid:'akjsdfhaslöhalsjgladfjgldjg834r'
