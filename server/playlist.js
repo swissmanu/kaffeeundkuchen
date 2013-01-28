@@ -1,5 +1,15 @@
-var Log = require('../config/logger.js');
+var Log = require('../config/logger.js')
+	,Util = require('util')
+	,EventEmitter = require('events').EventEmitter;
 
+/** Class: Playlist
+ *
+ * Emitted events:
+ *     added - Fired when a new track was added to this <Playlist>.
+ *             Parameters: [(Object)newTrack]
+ *     voted - Fired when the score of a track was changed by a vote.
+ *             Parameters: [(Object)changedTrack]
+ */
 var Playlist = function Playlist(tracks) {
 	var _self = this
 		,_tracks = tracks || [];
@@ -9,11 +19,14 @@ var Playlist = function Playlist(tracks) {
 	};
 
 	_self.addTrack = function addTrack(spotifyId, artist, track) {
-		_tracks.push(buildTrackData(spotifyId, artist, track));
+		var newTrack = buildTrackData(spotifyId, artist, track);
+		_tracks.push(newTrack);
+		_self.emit('added', newTrack);
 	};
 
 	_self.voteTrackUp = function voteTrackUp(spotifyId) {
 		Log.warn('Implement Playlist.voteTrackUp!');
+		_self.emit('voted', spotifyId);
 	};
 
 
@@ -27,5 +40,7 @@ var Playlist = function Playlist(tracks) {
 	}
 
 };
+
+Util.inherits(Playlist, EventEmitter);
 
 module.exports = Playlist;
