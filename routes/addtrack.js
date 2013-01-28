@@ -7,7 +7,7 @@ var Log = require('../config/logger.js');
  */
 module.exports = function AddTrack(config, playlist) {
 
-	function handleRequest(req, res) {
+	var handleRequest = function handleRequest(req, res) {
 		var input = req.body
 			,responseData = {
 				statusCode : 200
@@ -25,7 +25,7 @@ module.exports = function AddTrack(config, playlist) {
 		res.json(responseData.statusCode, responseData.content);
 	}
 
-	function validateInput(input) {
+	var validateInput = function validateInput(input) {
 		var valid = (input !== undefined && input.spotifyId !== undefined);
 		return valid;
 	}
