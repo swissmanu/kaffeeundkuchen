@@ -1,128 +1,131 @@
+<!DOCTYPE html>
 <html>
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1"> 
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<link rel="stylesheet" href="vendor/jquery.mobile-1.2.0/jquery.mobile-1.2.0.min.css" />
-	<link rel="stylesheet" href="css/client.js" />
-	<script src="vendor/jquery.mobile-1.2.0/jquery-1.8.2.min.js"></script>
-	<script src="vendor/jquery.mobile-1.2.0/jquery.mobile-1.2.0.min.js"></script>
+    <title>Junior - A front-end framework for building HTML5 mobile apps with a native look and feel.</title>
+
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="vendor/junior/stylesheets/ratchet.css">
+    <link rel="stylesheet" href="vendor/junior/stylesheets/junior.css">
+	<link rel="stylesheet" href="css/app.css">
+
 </head>
 <body>
-	<div data-role="page" id="onair">
-		<div data-role="header">
-			<h1>Now Playing</h1>
-			<a href="#vote" data-transition="flip" class="ui-btn-right">Playlist</a>
-		</div>
 
-		<div data-role="content">
-			<div class="current-track">
-				<div class="track-meta">
-					<h2 class="artist">Hans Zimmer</h2>
-					<h1 class="title">Dream is Collapsing</h1>
-				</div>
-				<img src="images/demoartwork.jpg" class="artwork" />
-			</div>
+
+	<div id="app-container">
+		<div id="app-main">
 		</div>
 	</div>
 
-	<div data-role="page" id="vote">
-		<div data-role="header" data-position="fixed">
-			<a href="#search" data-transition="slideup" data-icon="add">Add Track</a>
-			<h1>Playlist</h1>
-			<a href="#onair" data-transition="flip" class="ui-btn-right">Now Playing</a>
-		</div>
 
-		<div data-role="content">
-			<ul data-role="listview">
-				<li data-role="list-divider">
-					Next up...
-				</li>
-				<li>
-					<img class="artwork" src="images/demoartwork.jpg" />
-					<h2 class="artist">Hans Zimmer</h2>
-					<h1 class="title">Dream is Collapsing</h1>
-				</li>				<li>
-					<img class="artwork" src="images/demoartwork.jpg" />
-					<h2 class="artist">Hans Zimmer</h2>
-					<h1 class="title">Dream is Collapsing</h1>
-				</li>				<li>
-					<img class="artwork" src="images/demoartwork.jpg" />
-					<h2 class="artist">Hans Zimmer</h2>
-					<h1 class="title">Dream is Collapsing</h1>
-				</li>				<li>
-					<img class="artwork" src="images/demoartwork.jpg" />
-					<h2 class="artist">Hans Zimmer</h2>
-					<h1 class="title">Dream is Collapsing</h1>
-				</li>				<li>
-					<img class="artwork" src="images/demoartwork.jpg" />
-					<h2 class="artist">Hans Zimmer</h2>
-					<h1 class="title">Dream is Collapsing</h1>
-				</li>				<li>
-					<img class="artwork" src="images/demoartwork.jpg" />
-					<h2 class="artist">Hans Zimmer</h2>
-					<h1 class="title">Dream is Collapsing</h1>
-				</li>				<li>
-					<img class="artwork" src="images/demoartwork.jpg" />
-					<h2 class="artist">Hans Zimmer</h2>
-					<h1 class="title">Dream is Collapsing</h1>
-				</li>				<li>
-					<img class="artwork" src="images/demoartwork.jpg" />
-					<h2 class="artist">Hans Zimmer</h2>
-					<h1 class="title">Dream is Collapsing</h1>
-				</li>
-				<li>
-					<img class="artwork" src="images/demoartwork.jpg" />
-					<h2 class="artist">Hans Zimmer</h2>
-					<h1 class="title">Dream is Collapsing</h1>
-				</li>
-			</ul>
-		</div>
-	</div>
 
-	<div data-role="page" id="search">
-		<div data-role="header" data-position="fixed">
-			<h1>Add Track</h1>
-			<a href="#vote" data-transition="slidedown" class="ui-btn-right">Cancel</a>
-		</div>
-		<div data-role="content">
-			<form action="#add" method="get" data-ajax="false">
-				<ul data-role="listview">
-					<li data-role="list-divider">Step 1: Search</li>
-					<li data-role="fieldcontain" class="ui-hide-label">
-						<label for="txtArtist">Artist</label>
-						<input type="text" name="txtArtist" id="txtArtist" placeholder="Artist" />
-					</li>
-					<li data-role="fieldcontain" class="ui-hide-label">
-						<label for="txtTitle">Track</label>
-						<input type="text" name="txtTitle" id="txtTitle" placeholder="Track" />
-					</li>
-					<li data-role="fieldcontain">
-						<input type="submit" value="Search" />
-					</li>
-				</ul>
-			</form>
-		</div>
-	</div>
 
-	<div data-role="page" id="add">
-		<div data-role="header" data-position="fixed">
-			<a data-rel="back" data-direction="reverse" data-icon="arrow-l">Back</a>
-			<h1>Add Track</h1>
-			<a href="#vote" data-transition="slidedown" class="ui-btn-right">Cancel</a>
-		</div>
-		<div data-role="content">
-			<form action="#" method="post">
-				<ul data-role="listview">
-					<li data-role="list-divider">Step 2: Select Track</li>
-					<li>
-						<img class="artwork" src="images/demoartwork.jpg" />
-						<h2 class="artist">Hans Zimmer</h2>
-						<h1 class="title">Dream is Collapsing</h1>
-					</li>
-				</ul>
-			</form>
-		</div>
-	</div>
-	
+
+    <script src="vendor/junior/modernizr.custom.15848.js"></script>
+    <script src="vendor/junior/zepto.min.js"></script>
+    <script src="vendor/junior/lodash.min.js"></script>
+    <script src="vendor/junior/backbone-min.js"></script>
+    <script src="vendor/junior/junior.js"></script>
+
+    <!--script src="docs/javascripts/example.js"></script-->
+    <script type="text/javascript">
+    	var NowPlayingTemplate = [
+    		'<header class="bar-title">',
+    		'  <div class="header-animated">',
+    		'  <h1 class="title">Now Playing</h1>',
+			'  <a class="button-playlist button-next">Playlist</a>',
+			'</header>'
+    	].join('\n');
+
+    	var PlaylistTemplate = [
+    		'<header class="bar-title">',
+    		'  <div class="header-animated">',
+			'  <a class="button-nowplaying button-prev">Now Playing</a>',
+    		'  <h1 class="title">Playlist</h1>',
+			'  <a class="button">Add Track</a>',
+			
+			'</header>',
+			'<div class="content">',
+			'<ul class="list playlist">',
+			'  <li class="list-divider">Next Up...</li>',
+			'  <li><img src="images/demoartwork.jpg" class="artwork" />Item 1</li>',
+			'  <li><img src="images/demoartwork.jpg" class="artwork" />Item 1</li>',
+			'  <li><img src="images/demoartwork.jpg" class="artwork" />Item 1</li>',
+			'  <li><img src="images/demoartwork.jpg" class="artwork" />Item 1</li>',
+			'  <li><img src="images/demoartwork.jpg" class="artwork" />Item 1</li>',
+			'  <li><img src="images/demoartwork.jpg" class="artwork" />Item 1</li>',
+			'  <li><img src="images/demoartwork.jpg" class="artwork" />Item 1</li>',
+			'  <li><img src="images/demoartwork.jpg" class="artwork" />Item 1</li>',
+			'</ul>',
+			'</div>'
+    	].join('\n');
+
+    	var PlaylistView = Jr.View.extend({
+    		render: function render() {
+    			this.$el.html(PlaylistTemplate);
+    			return this;
+    		}
+
+    		,events: {
+    			'click .button-nowplaying': 'onClickButtonNowPlaying'
+    		}
+
+    		,onClickButtonNowPlaying: function() {
+    			Jr.Navigator.navigate('nowPlaying', {
+    				trigger: true
+    				,animation: {
+    					type: Jr.Navigator.animations.SLIDE_OVER
+    					,direction: Jr.Navigator.directions.RIGHT
+    				}
+    			});
+    		}
+    	});
+
+    	var NowPlayingView = Jr.View.extend({
+    		render: function render() {
+    			this.$el.html(NowPlayingTemplate);
+    			return this;
+    		}
+
+    		,events: {
+    			'click .button-playlist': 'onClickButtonPlaylist'
+    		}
+
+    		,onClickButtonPlaylist: function() {
+    			Jr.Navigator.navigate('playlist', {
+    				trigger: true
+    				,animation: {
+    					type: Jr.Navigator.animations.SLIDE_OVER
+    					,direction: Jr.Navigator.directions.LEFT
+    				}
+    			});
+    		}
+    	});
+
+    	var AppRouter = Jr.Router.extend({
+    		routes: {
+    			'': 'playlist'
+    			,'playlist': 'playlist'
+    			,'nowPlaying': 'nowPlaying'
+    			,'searchTrack': 'searchTrack'
+    		}
+
+    		,playlist: function playlist() {
+    			var playlistView = new PlaylistView();
+    			this.renderView(playlistView);
+    		}
+
+    		,nowPlaying: function nowPlaying() {
+    			var nowPlayingView = new NowPlayingView();
+    			this.renderView(nowPlayingView);
+    		}
+    	});
+
+    	var appRouter = new AppRouter();
+    	Backbone.history.start();
+    </script>
 </body>
 </html>
