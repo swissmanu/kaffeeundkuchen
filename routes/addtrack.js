@@ -1,18 +1,17 @@
 'use strict';
 
 var Log = require('../config/logger.js')
-	,spotifyWrapper = require('../utils/spotifyWrapper');
 
 /** Route: AddTrack
  *
  */
-module.exports = function AddTrack(config, playlist) {
+module.exports = function AddTrack(config, spotifyWrapper, playlist) {
 
 	var handleRequest = function handleRequest(req, res) {
 		var input = req.body
 			,responseData = {
 				statusCode : 200
-				,content : playlist.getTracks()
+				,content : {}
 			};
 
 		Log.info('Route: AddTrack');

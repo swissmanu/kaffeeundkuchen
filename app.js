@@ -10,15 +10,15 @@ var mdns = require('mdns')
 	,Log = require('./config/logger')
 	,config = require('./config/config')
 	,Playlist = require('./models/playlist')
-	,spotifyWrapper = require('./utils/spotifywrapper');
+	,SpotifyWrapper = require('./utils/spotifywrapper');
 
 Log.info('Starting KaffeeUndKuchen');
 
 var playlist = new Playlist()
+	,spotifyWrapper = new SpotifyWrapper(config)
 	,app = createExpressApp(config, playlist)
 	,server = createAdvertableServerFromExpressApp(app, config);
 
-spotifyWrapper.setConfig(config);
 server.listen(config.server.port);
 
 /**
@@ -30,9 +30,9 @@ function createExpressApp(config, playlist) {
 	app.use(express.static(__dirname + '/client'));
 	app.use(express.bodyParser());
 
-	app.post('/api/search', Search(config));
-	app.get('/api/tracks', OnAir(config, playlist));
-	app.post('/api/tracks', AddTrack(config, playlist));
+	app.post('/api/search', Search(config, spotifyWrapper));
+	app.get('/api/tracks', OnAir(config, spotifyWrapper, playlist));
+	app.post('/api/tracks', AddTrack(config, spotifyWrapper, playlist));
 	app.put('/api/tracks/:id/vote', Voter(config, playlist));
 
 	return app;
