@@ -61,9 +61,9 @@ kaffeeundkuchen.view.NowPlaying = Jr.View.extend({
 kaffeeundkuchen.template.Playlist = Handlebars.compile(
 	'<header class="bar-title">' +
 	'  <div class="header-animated">' +
-	'  <a class="button-nowplaying button-prev">Now Playing</a>' +
+	'  <a class="btnNowPlaying button-prev">Now Playing</a>' +
 	'  <h1 class="title">Playlist</h1>' +
-	'  <a class="button button-addtrack">Add Track</a>' +
+	'  <a class="button btnAddTrack">Add Track</a>' +
 	'</header>' +
 	'<div class="content">' +
 	'<ol class="list playlist" />' +
@@ -74,11 +74,14 @@ kaffeeundkuchen.template.Playlist = Handlebars.compile(
  */
 kaffeeundkuchen.template.PlaylistItem = Handlebars.compile(
     '<li class="item">' +
-    '  <div class="clearfix"><img src="{{artwork}}" class="artwork">' +
-    '  <div class="info">' +
-    '    <h2 class="artist">{{artist}}</h2>' +
-    '    <h1 class="track">{{track}}</h1>' +
-    '  </div></div>' +
+    '  <div class="clearfix">' +
+    '    <img src="{{artwork}}" class="artwork">' +
+    '    <div class="info">' +
+    '      <h2 class="artist">{{artist}}</h2>' +
+    '      <h1 class="track">{{track}}</h1>' +
+    '    </div>' +
+    '    <a class="button-positive btnVote" data-spotifyid="{{spotifyId}}">Vote!</a>' +
+    '  </div>' +
     '</li>');
 
 /** Class: view.Playlist
@@ -90,7 +93,7 @@ kaffeeundkuchen.view.Playlist = Jr.View.extend({
         // Create some dummy data:
         var models = [];
         for(var i = 0; i < 3; i++) {
-            models.push(new kaffeeundkuchen.model.Track({artist:'Hans Zimmer',track:'Dream is Collapsing ' + i,spotifyId:'balablala',artwork:'images/demoartwork.jpg'}));
+            models.push(new kaffeeundkuchen.model.Track({artist:'Hans Zimmer',track:'Dream is Collapsing ' + i,spotifyId:'balablala'+i,artwork:'images/demoartwork.jpg'}));
         }
         this.model = new kaffeeundkuchen.collection.Tracks(models);
 
@@ -108,25 +111,22 @@ kaffeeundkuchen.view.Playlist = Jr.View.extend({
 	}
 
     ,renderItems: function renderItems() {
-        var rendered = '<li class="list-divider">Next Up...</li>';
+        var rendered = '';
         
         this.model.forEach(function(track) {
-            rendered += kaffeeundkuchen.template.PlaylistItem({
-                artist: track.get('artist')
-                ,track: track.get('track')
-                ,artwork: 'images/demoartwork.jpg'
-            });
+            rendered += kaffeeundkuchen.template.PlaylistItem(track.toJSON());
         });
 
         $('.playlist', this.$el).html(rendered);
     }
 
 	,events: {
-		'click .button-nowplaying': 'onClickButtonNowPlaying'
-        ,'click .button-addtrack': 'onClickButtonAddTrack'
+		'click .btnNowPlaying': 'onClickBtnNowPlaying'
+        ,'click .btnAddTrack': 'onClickBtnAddTrack'
+        ,'click .btnVote': 'onClickBtnVote'
 	}
 
-	,onClickButtonNowPlaying: function onClickButtonNowPlaying() {
+	,onClickBtnNowPlaying: function onClickBtnNowPlaying() {
 		Jr.Navigator.navigate('nowPlaying', {
 			trigger: true
 			,animation: {
@@ -136,10 +136,15 @@ kaffeeundkuchen.view.Playlist = Jr.View.extend({
 		});
 	}
 
-    ,onClickButtonAddTrack: function onClickButtonAddTrack() {
+    ,onClickBtnAddTrack: function onClickBtnAddTrack() {
         this.model.add(
-            new kaffeeundkuchen.model.Track({artist:'Willy',track:'Another One',spotifyId:'balablala'})
+            new kaffeeundkuchen.model.Track({artist:'Willy',track:'Another One',spotifyId:'balablala ADDED'})
         )
+    }
+
+    ,onClickBtnVote: function onClickBtnVote(event) {
+        var spotifyId = $(event.srcElement).attr('data-spotifyid');
+        console.log('Vote for ', spotifyId);
     }
 });
 

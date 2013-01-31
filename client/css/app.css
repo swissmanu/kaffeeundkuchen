@@ -22,6 +22,11 @@
 	font-weight: bold;
 }
 
+.playlist .btnVote {
+	font-size: 10px;
+	padding: 3px 5px;
+}
+
 
 .clearfix:after {
 	content: "";
