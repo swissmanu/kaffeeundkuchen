@@ -1,10 +1,15 @@
 .playlist .item {
 	padding: 4px;
 }
+
 .playlist .artwork {
-	width: 30px;
-	height: 30px;
+	width: 40px;
+	height: 40px;
 	float: left;
+}
+
+.playlist .info {
+	margin-left: 45px;
 }
 
 .playlist .artist {
@@ -14,5 +19,15 @@
 
 .playlist .track {
 	font-size: 14px;
-	font-weight: normal;	
+	font-weight: bold;
+}
+
+
+.clearfix:after {
+	content: "";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
 }

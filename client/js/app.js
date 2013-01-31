@@ -74,9 +74,11 @@ kaffeeundkuchen.template.Playlist = Handlebars.compile(
  */
 kaffeeundkuchen.template.PlaylistItem = Handlebars.compile(
     '<li class="item">' +
-    '  <img src="{{artwork}}" class="artwork">' +
-    '  <h2 class="artist">{{artist}}</h2>' +
-    '  <h1 class="track">{{track}}</h1>' +
+    '  <div class="clearfix"><img src="{{artwork}}" class="artwork">' +
+    '  <div class="info">' +
+    '    <h2 class="artist">{{artist}}</h2>' +
+    '    <h1 class="track">{{track}}</h1>' +
+    '  </div></div>' +
     '</li>');
 
 /** Class: view.Playlist
@@ -88,7 +90,7 @@ kaffeeundkuchen.view.Playlist = Jr.View.extend({
         // Create some dummy data:
         var models = [];
         for(var i = 0; i < 3; i++) {
-            models.push(new kaffeeundkuchen.model.Track({artist:'Hans Zimmer',track:'Dream is Collapsing ' + i,spotifyId:'balablala'}));
+            models.push(new kaffeeundkuchen.model.Track({artist:'Hans Zimmer',track:'Dream is Collapsing ' + i,spotifyId:'balablala',artwork:'images/demoartwork.jpg'}));
         }
         this.model = new kaffeeundkuchen.collection.Tracks(models);
 
@@ -112,7 +114,7 @@ kaffeeundkuchen.view.Playlist = Jr.View.extend({
             rendered += kaffeeundkuchen.template.PlaylistItem({
                 artist: track.get('artist')
                 ,track: track.get('track')
-                ,artwork: 'bla'
+                ,artwork: 'images/demoartwork.jpg'
             });
         });
 
