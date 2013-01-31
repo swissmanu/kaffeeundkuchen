@@ -137,9 +137,16 @@ kaffeeundkuchen.view.Playlist = Jr.View.extend({
 	}
 
     ,onClickBtnAddTrack: function onClickBtnAddTrack() {
-        this.model.add(
+        /*this.model.add(
             new kaffeeundkuchen.model.Track({artist:'Willy',track:'Another One',spotifyId:'balablala ADDED'})
-        )
+        )*/
+        Jr.Navigator.navigate('searchTrack', {
+            trigger: true
+            ,animation: {
+                type: Jr.Navigator.animations.SLIDE_OVER
+                ,direction: Jr.Navigator.directions.UP
+            }
+        });
     }
 
     ,onClickBtnVote: function onClickBtnVote(event) {
@@ -147,6 +154,57 @@ kaffeeundkuchen.view.Playlist = Jr.View.extend({
         console.log('Vote for ', spotifyId);
     }
 });
+
+/** Class: template.SearchTrack
+ *
+ */
+kaffeeundkuchen.template.SearchTrack = Handlebars.compile(
+    '<header class="bar-title">' +
+    '  <div class="header-animated">' +
+    '    <a class="button btnCancel">Cancel</a>' +
+    '    <h1 class="title">Add Track</h1>' +
+    '    <a class="button btnSearch">Search</a>' +
+    '  </div>' + 
+    '</header>' +
+    '<div class="content">' +
+    'bla' +
+    '</div>');
+
+/** Class: view.SearchTrack
+ *
+ */
+kaffeeundkuchen.view.SearchTrack = Jr.View.extend({
+    render: function render() {
+        this.$el.html(kaffeeundkuchen.template.SearchTrack);
+        return this;
+    }
+
+    ,events: {
+        'click .btnCancel': 'onClickBtnCancel'
+        ,'click .btnSearch': 'onClickBtnSearch'
+    }
+
+    ,onClickBtnCancel: function onClickBtnCancel() {
+        Jr.Navigator.navigate('playlist', {
+            trigger: true
+            ,animation: {
+                type: Jr.Navigator.animations.SLIDE_OVER
+                ,direction: Jr.Navigator.directions.DOWN
+            }
+        });
+    }
+
+    ,onClickBtnSearch: function onClickBtnSearch() {
+        Jr.Navigator.navigate('playlist', {
+            trigger: true
+            ,animation: {
+                type: Jr.Navigator.animations.SLIDE_OVER
+                ,direction: Jr.Navigator.directions.DOWN
+            }
+        });
+    }
+});
+
 
 /** Class: AppRouter
  *
@@ -168,6 +226,11 @@ kaffeeundkuchen.AppRouter = Jr.Router.extend({
 		var nowPlayingView = new kaffeeundkuchen.view.NowPlaying();
 		this.renderView(nowPlayingView);
 	}
+
+    ,searchTrack: function searchTrack() {
+        var searchTrack = new kaffeeundkuchen.view.SearchTrack();
+        this.renderView(searchTrack);
+    }
 });
 
 
