@@ -73,10 +73,10 @@ kaffeeundkuchen.template.Playlist = Handlebars.compile(
  *
  */
 kaffeeundkuchen.template.PlaylistItem = Handlebars.compile(
-    '<li class="track">' +
+    '<li class="item">' +
     '  <img src="{{artwork}}" class="artwork">' +
-    '  <h2>{{artist}}</h2>' +
-    '  <h1>{{track}}</h1>' +
+    '  <h2 class="artist">{{artist}}</h2>' +
+    '  <h1 class="track">{{track}}</h1>' +
     '</li>');
 
 /** Class: view.Playlist

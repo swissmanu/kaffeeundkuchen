@@ -1,4 +1,18 @@
+.playlist .item {
+	padding: 4px;
+}
 .playlist .artwork {
-	width: 10px;
-	height: 10px;
+	width: 30px;
+	height: 30px;
+	float: left;
+}
+
+.playlist .artist {
+	font-size: 12px;
+	font-weight: normal;
+}
+
+.playlist .track {
+	font-size: 14px;
+	font-weight: normal;	
 }
