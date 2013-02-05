@@ -1,34 +1,5 @@
-.playlist {
-
-	.item {
-		padding: 4px;
-	}
-
-	.artwork {
-		width: 40px;
-		height: 40px;
-		float: left;
-	}
-
-	.info {
-		margin-left: 45px;
-	}
-
-	.artist {
-		font-size: 12px;
-		font-weight: normal;
-	}
-
-	.track {
-		font-size: 14px;
-		font-weight: bold;
-	}
-
-	.btnVote {
-		font-size: 10px;
-		padding: 3px 5px;
-	}
-}
+@import "/client/assets/style/playlist";
+@import "/client/assets/style/overlay";
 
 form {
 	padding: 5px;
@@ -47,46 +18,4 @@ form {
 	visibility: hidden;
 	line-height: 0;
 	height: 0;
-}
-
-
-
-.overlay {
-	position: fixed;
-	z-index: 1000;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0,0,0,.5);
-	display: none;
-	color: white;
-}
-
-.overlay .content {
-	position: absolute;
-	width: 100px;
-	height: 100px;
-	margin-left: -50px;
-	left: 50%;
-	top: 30%;
-	text-align: center;
-	background-color: rgba(0,0,0,.5);
-	padding: 10px;
-	border-radius: 10px;
-}
-
-
-.overlay .spinner {
-	margin: 0 auto;
-	top: 35px;
-	padding-bottom: 71px;
-}
-
-.overlay .popup-icon {
-	width: 45px;
-	height: 45px;
-	font-size: 45px;
-	padding-top: 20px;
-	line-height: 65px;
 }

@@ -46,7 +46,7 @@ function createExpressApp(config, playlist) {
 function createAssetPipelineMiddleware() {
 	var assetPipelineMiddleware = igneous({
 		root: __dirname + '/client/assets/'
-		,minify: true
+		,minify: false
 		,watch: false
 		,flows: [
 			{
