@@ -60,7 +60,7 @@ function createAssetPipelineMiddleware() {
 					,'vendor/junior/junior.js'
 					,'vendor/handlebars/handlebars.js'
 					,'vendor/spin/spin.min.js'
-					,'js/app.js'
+					,'js/'
 				]
 			},{
 				route: 'js/templates.js'
@@ -80,8 +80,7 @@ function createAssetPipelineMiddleware() {
 				route: 'style/app.css'
 				,type: 'css'
 				,paths: [
-					'vendor/junior/stylesheets/ratchet.css'
-					,'vendor/junior/stylesheets/junior.css'
+					'vendor/junior/stylesheets/'
 					,'style/main.scss'
 				]
 			}
