@@ -137,9 +137,6 @@ kaffeeundkuchen.view.Playlist = Jr.View.extend({
 	}
 
     ,onClickBtnAddTrack: function onClickBtnAddTrack() {
-        /*this.model.add(
-            new kaffeeundkuchen.model.Track({artist:'Willy',track:'Another One',spotifyId:'balablala ADDED'})
-        )*/
         Jr.Navigator.navigate('searchTrack', {
             trigger: true
             ,animation: {
@@ -167,7 +164,19 @@ kaffeeundkuchen.template.SearchTrack = Handlebars.compile(
     '  </div>' + 
     '</header>' +
     '<div class="content">' +
-    'bla' +
+    '  <form>' +
+    '    <div class="input-group">' +
+    '      <div class="input-row">' +
+    '        <label for="txtArtist">Artist</label>' +
+    '        <input type="text" name="txtArtist" id="txtArtist" />' +
+    '      </div>' +
+    '      <div class="input-row">' +
+    '        <label for="txtTrack">Track</label>' +
+    '        <input type="text" name="txtTrack" id="txtTrack" />' +
+    '      </div>' +
+    '    </div>' +
+    '  </form>' +
+    '  <p class="hint">Enter at least an artist or track name and tap "Search" in the top right corner.</p>' +
     '</div>');
 
 /** Class: view.SearchTrack
@@ -184,6 +193,17 @@ kaffeeundkuchen.view.SearchTrack = Jr.View.extend({
         ,'click .btnSearch': 'onClickBtnSearch'
     }
 
+    ,form: {
+        getArtist: function getArtist() {
+            var artist = $('input#txtArtist').val();
+            return artist;
+        }
+        ,getTrack: function getTrack() {
+            var track =  $('input#txtTrack').val();
+            return track;
+        }
+    }
+
     ,onClickBtnCancel: function onClickBtnCancel() {
         Jr.Navigator.navigate('playlist', {
             trigger: true
@@ -195,6 +215,69 @@ kaffeeundkuchen.view.SearchTrack = Jr.View.extend({
     }
 
     ,onClickBtnSearch: function onClickBtnSearch() {
+        var artist = this.form.getArtist()
+            ,track = this.form.getTrack();
+
+        overlay.showActivityIndicator('Searching...');
+
+        $.post('api/search', {artist:artist,track:track}, function(response) {
+            overlay.hide();
+            console.log(response);
+        });
+
+        /*
+        Jr.Navigator.navigate('addTrack', {
+            trigger: true
+            ,animation: {
+                type: Jr.Navigator.animations.SLIDE_OVER
+                ,direction: Jr.Navigator.directions.LEFT
+            }
+        });
+        */
+    }
+});
+
+
+/** Class: template.AddTrack
+ *
+ */
+kaffeeundkuchen.template.AddTrack = Handlebars.compile(
+    '<header class="bar-title">' +
+    '  <div class="header-animated">' +
+    '    <a class="button-prev btnBack">Search</a>' +
+    '    <h1 class="title">Add Track</h1>' +
+    '    <a class="button btnAdd">Add</a>' +
+    '  </div>' + 
+    '</header>' +
+    '<div class="content">' +
+    'bla' +
+    '</div>');
+
+/** Class: view.AddTrack
+ *
+ */
+kaffeeundkuchen.view.AddTrack = Jr.View.extend({
+    render: function render() {
+        this.$el.html(kaffeeundkuchen.template.AddTrack);
+        return this;
+    }
+
+    ,events: {
+        'click .btnBack': 'onClickBtnBack'
+        ,'click .btnAdd': 'onClickBtnAdd'
+    }
+
+    ,onClickBtnBack: function onClickBtnBack() {
+        Jr.Navigator.navigate('searchTrack', {
+            trigger: true
+            ,animation: {
+                type: Jr.Navigator.animations.SLIDE_OVER
+                ,direction: Jr.Navigator.directions.RIGHT
+            }
+        });
+    }
+
+    ,onClickBtnAdd: function onClickBtnAdd() {
         Jr.Navigator.navigate('playlist', {
             trigger: true
             ,animation: {
@@ -203,6 +286,75 @@ kaffeeundkuchen.view.SearchTrack = Jr.View.extend({
             }
         });
     }
+});
+
+
+kaffeeundkuchen.view.Overlay = Backbone.View.extend({
+
+    POPUPTYPE: {
+        SUCCESS : {
+            icon: 'icon-ok'
+            ,delay: 1000
+            ,defaultMessage: 'Done'
+        }
+        ,ERROR : {
+            icon: 'icon-exclamation-sign'
+            ,delay: 2500
+            ,defaultMessage: 'Error :('
+        }
+    }
+
+    ,spinnerColor: 'white'
+
+    ,initialize: function(options) {
+        var self = this
+            ,overlay = $('#overlay');
+
+        self.overlay = overlay;
+        self.spinner = new Spinner({color:self.spinnerColor});
+    }
+
+    ,showActivityIndicator: function showActivityIndicator(message) {
+        var overlay = this.overlay
+            ,indicatorContainer = $('.indicator', overlay)
+            ,messageContainer = $('.text', overlay)
+            ,message = message || 'Please Wait';
+
+        indicatorContainer.empty().append(this.spinner.spin().el);
+        messageContainer.empty().append(message);
+
+        this.overlay.show();
+    }
+
+    ,showStatusPopup: function showStatusPopup(type, message) {
+        var overlay = this.overlay
+            ,indicatorContainer = $('.indicator', overlay)
+            ,messageContainer = $('.text', overlay)
+            ,icon = type.icon || 'icon-comment'
+            ,message = message || type.defaultMessage || ''
+            ,delay = type.delay || 2000;
+
+        this.spinner.stop();  // just to be sure ;)
+        indicatorContainer.empty().append('<div class="' + icon + ' popup-icon"></div>');
+        messageContainer.empty().append(message);
+
+        this.overlay.show();
+        this.overlay.delay(delay).fadeOut('fast');
+    }
+
+    ,hide: function hide() {
+        var overlay = this.overlay
+            ,spinner = this.spinner;
+
+        overlay.animate({
+            opacity: 0
+        }, 500, 'ease', function() {
+            overlay.hide();
+            overlay.css('opacity',1);
+            spinner.stop();
+        });
+    }
+
 });
 
 
@@ -215,6 +367,7 @@ kaffeeundkuchen.AppRouter = Jr.Router.extend({
 		,'playlist': 'playlist'
 		,'nowPlaying': 'nowPlaying'
 		,'searchTrack': 'searchTrack'
+        ,'addTrack': 'addTrack'
 	}
 
 	,playlist: function playlist() {
@@ -231,8 +384,14 @@ kaffeeundkuchen.AppRouter = Jr.Router.extend({
         var searchTrack = new kaffeeundkuchen.view.SearchTrack();
         this.renderView(searchTrack);
     }
+
+    ,addTrack: function addTrack() {
+        var addTrack = new kaffeeundkuchen.view.AddTrack();
+        this.renderView(addTrack);
+    }
 });
 
 
 var appRouter = new kaffeeundkuchen.AppRouter();
+var overlay = new kaffeeundkuchen.view.Overlay();
 Backbone.history.start();
