@@ -25,5 +25,6 @@
     "mdns": "~1.1.0",
     "winston": "~0.6.2",
     "libspotify": "~0.1.0",
+    "igneous": "0.1.6"
   }
 }

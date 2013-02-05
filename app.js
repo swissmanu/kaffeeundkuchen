@@ -10,7 +10,8 @@ var mdns = require('mdns')
 	,Log = require('./config/logger')
 	,config = require('./config/config')
 	,Playlist = require('./models/playlist')
-	,SpotifyWrapper = require('./utils/spotifywrapper');
+	,SpotifyWrapper = require('./utils/spotifywrapper')
+	,igneous = require('igneous');
 
 Log.info('Starting KaffeeUndKuchen');
 
@@ -29,6 +30,7 @@ function createExpressApp(config, playlist) {
 
 	app.use(express.static(__dirname + '/client'));
 	app.use(express.bodyParser());
+	app.use(createAssetPipelineMiddleware());
 
 	app.post('/api/search', Search(config, spotifyWrapper));
 	app.get('/api/tracks', OnAir(config, spotifyWrapper, playlist));
@@ -36,6 +38,57 @@ function createExpressApp(config, playlist) {
 	app.put('/api/tracks/:id/vote', Voter(config, playlist));
 
 	return app;
+}
+
+/**
+ *
+ */
+function createAssetPipelineMiddleware() {
+	var assetPipelineMiddleware = igneous({
+		root: __dirname + '/client/assets/'
+		,minify: true
+		,watch: false
+		,flows: [
+			{
+				route: 'js/app.js'
+				,type: 'js'
+				,paths: [
+					'vendor/junior/zepto.min.js'
+					,'vendor/junior/lodash.min.js'
+					,'vendor/junior/modernizr.custom.15848.js'
+					,'vendor/junior/backbone-min.js'
+					,'vendor/junior/junior.js'
+					,'vendor/handlebars/handlebars.js'
+					,'vendor/spin/spin.min.js'
+					,'js/app.js'
+				]
+			},{
+				route: 'js/templates.js'
+				,type: 'jst'
+				,jst_lang: 'handlebars'
+				,jst_namespace: 'templates'
+				,base: 'templates/'
+				,paths: [
+					'NowPlaying.jst'
+					,'Playlist.jst'
+					,'PlaylistItem.jst'
+					,'SearchResults.jst'
+					,'SearchResultItem.jst'
+					,'SearchTracks.jst'
+				]
+			},{
+				route: 'style/app.css'
+				,type: 'css'
+				,paths: [
+					'vendor/junior/stylesheets/ratchet.css'
+					,'vendor/junior/stylesheets/junior.css'
+					,'style/main.scss'
+				]
+			}
+		]
+	});
+
+	return assetPipelineMiddleware;
 }
 
 /**

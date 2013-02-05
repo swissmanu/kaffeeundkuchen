@@ -1,3 +1,4 @@
+(function(templates) {
 /** File: app.js
  * The main application logic of kaffeeundkuchen.
  *
@@ -5,8 +6,9 @@
 var kaffeeundkuchen = kaffeeundkuchen || {
     model: {}
     ,collection: {}
-    ,template: {}
+    ,template: templates
     ,view: {}
+    ,vent: _.extend({}, Backbone.Events)  // app event aggregator
 };
 
 /** Class: model.Track
@@ -19,17 +21,6 @@ kaffeeundkuchen.model.Track = Backbone.Model.extend();
 kaffeeundkuchen.collection.Tracks = Backbone.Collection.extend({
     model: kaffeeundkuchen.model.Track
 });
-
-
-/** Class: template.NowPlaying
- *
- */
-kaffeeundkuchen.template.NowPlaying = Handlebars.compile(
-	'<header class="bar-title">' +
-	'  <div class="header-animated">' + 
-	'  <h1 class="title">Now Playing</h1>' +
-	'  <a class="button-playlist button-next">Playlist</a>' +
-	'</header>');
 
 /** Class: view.NowPlaying
  *
@@ -55,34 +46,6 @@ kaffeeundkuchen.view.NowPlaying = Jr.View.extend({
     }
 });
 
-/** Class: template.Playlist
- *
- */
-kaffeeundkuchen.template.Playlist = Handlebars.compile(
-	'<header class="bar-title">' +
-	'  <div class="header-animated">' +
-	'  <a class="btnNowPlaying button-prev">Now Playing</a>' +
-	'  <h1 class="title">Playlist</h1>' +
-	'  <a class="button btnAddTrack">Add Track</a>' +
-	'</header>' +
-	'<div class="content">' +
-	'<ol class="list playlist" />' +
-	'</div>');
-
-/** Class: template.PlaylistItem
- *
- */
-kaffeeundkuchen.template.PlaylistItem = Handlebars.compile(
-    '<li class="item">' +
-    '  <div class="clearfix">' +
-    '    <img src="{{artwork}}" class="artwork">' +
-    '    <div class="info">' +
-    '      <h2 class="artist">{{artist}}</h2>' +
-    '      <h1 class="track">{{track}}</h1>' +
-    '    </div>' +
-    '    <a class="button-positive btnVote" data-spotifyid="{{spotifyId}}">Vote!</a>' +
-    '  </div>' +
-    '</li>');
 
 /** Class: view.Playlist
  *
@@ -152,39 +115,15 @@ kaffeeundkuchen.view.Playlist = Jr.View.extend({
     }
 });
 
-/** Class: template.SearchTrack
- *
- */
-kaffeeundkuchen.template.SearchTrack = Handlebars.compile(
-    '<header class="bar-title">' +
-    '  <div class="header-animated">' +
-    '    <a class="button btnCancel">Cancel</a>' +
-    '    <h1 class="title">Add Track</h1>' +
-    '    <a class="button btnSearch">Search</a>' +
-    '  </div>' + 
-    '</header>' +
-    '<div class="content">' +
-    '  <form>' +
-    '    <div class="input-group">' +
-    '      <div class="input-row">' +
-    '        <label for="txtArtist">Artist</label>' +
-    '        <input type="text" name="txtArtist" id="txtArtist" />' +
-    '      </div>' +
-    '      <div class="input-row">' +
-    '        <label for="txtTrack">Track</label>' +
-    '        <input type="text" name="txtTrack" id="txtTrack" />' +
-    '      </div>' +
-    '    </div>' +
-    '  </form>' +
-    '  <p class="hint">Enter at least an artist or track name and tap "Search" in the top right corner.</p>' +
-    '</div>');
 
 /** Class: view.SearchTrack
  *
  */
 kaffeeundkuchen.view.SearchTrack = Jr.View.extend({
+
     render: function render() {
         this.$el.html(kaffeeundkuchen.template.SearchTrack);
+
         return this;
     }
 
@@ -195,16 +134,53 @@ kaffeeundkuchen.view.SearchTrack = Jr.View.extend({
 
     ,form: {
         getArtist: function getArtist() {
-            var artist = $('input#txtArtist').val();
-            return artist;
+            return $('#txtArtist').val();
         }
+
         ,getTrack: function getTrack() {
-            var track =  $('input#txtTrack').val();
-            return track;
+            return $('#txtTrack').val();
         }
     }
 
+    ,onClickBtnSearch: function onClickBtnSearch() {
+        var self = this
+            ,model = self.model
+            ,artist = self.form.getArtist()
+            ,track = self.form.getTrack();
+
+        overlay.showActivityIndicator('Searching...');
+
+        model.set('artist', artist);
+        model.set('track', track);
+
+        $.post('api/search', {artist:artist,track:track}, function(response) {
+            var models = [];
+            response.forEach(function(rawTrack) {
+                models.push(new kaffeeundkuchen.model.Track(rawTrack));
+            });
+
+            var resultCollection = new kaffeeundkuchen.collection.Tracks(models);
+            dataStore.searchResult = resultCollection;
+
+            /*
+            Jr.Navigator.navigate('addTrack', {
+                trigger: true
+                ,animation: {
+                    type: Jr.Navigator.animations.SLIDE_OVER
+                    ,direction: Jr.Navigator.directions.LEFT
+                }
+            });
+            */
+
+            kaffeeundkuchen.vent.trigger('display:searchresults', resultCollection);
+
+            overlay.hide();
+        }, 'json');
+    }
+
     ,onClickBtnCancel: function onClickBtnCancel() {
+        this.model.clear();
+
         Jr.Navigator.navigate('playlist', {
             trigger: true
             ,animation: {
@@ -213,53 +189,27 @@ kaffeeundkuchen.view.SearchTrack = Jr.View.extend({
             }
         });
     }
-
-    ,onClickBtnSearch: function onClickBtnSearch() {
-        var artist = this.form.getArtist()
-            ,track = this.form.getTrack();
-
-        overlay.showActivityIndicator('Searching...');
-
-        $.post('api/search', {artist:artist,track:track}, function(response) {
-            overlay.hide();
-            console.log(response);
-        });
-
-        /*
-        Jr.Navigator.navigate('addTrack', {
-            trigger: true
-            ,animation: {
-                type: Jr.Navigator.animations.SLIDE_OVER
-                ,direction: Jr.Navigator.directions.LEFT
-            }
-        });
-        */
-    }
 });
-
-
-/** Class: template.AddTrack
- *
- */
-kaffeeundkuchen.template.AddTrack = Handlebars.compile(
-    '<header class="bar-title">' +
-    '  <div class="header-animated">' +
-    '    <a class="button-prev btnBack">Search</a>' +
-    '    <h1 class="title">Add Track</h1>' +
-    '    <a class="button btnAdd">Add</a>' +
-    '  </div>' + 
-    '</header>' +
-    '<div class="content">' +
-    'bla' +
-    '</div>');
 
 /** Class: view.AddTrack
  *
  */
 kaffeeundkuchen.view.AddTrack = Jr.View.extend({
     render: function render() {
-        this.$el.html(kaffeeundkuchen.template.AddTrack);
+        this.$el.html(kaffeeundkuchen.template.AddTrack());
+        this.renderItems();
+
         return this;
+    }
+
+    ,renderItems: function renderItems() {
+        var rendered = '';
+        
+        this.model.models.forEach(function(track) {
+            rendered += kaffeeundkuchen.template.SearchResultItem(track.toJSON());
+        });
+
+        $('.searchresults', this.$el).html(rendered);
     }
 
     ,events: {
@@ -358,40 +308,54 @@ kaffeeundkuchen.view.Overlay = Backbone.View.extend({
 });
 
 
+kaffeeundkuchen.vent.on('display:searchresults', function(searchResults) {
+
+});
+
+
 /** Class: AppRouter
  *
  */
 kaffeeundkuchen.AppRouter = Jr.Router.extend({
-	routes: {
-		'': 'playlist'
-		,'playlist': 'playlist'
-		,'nowPlaying': 'nowPlaying'
-		,'searchTrack': 'searchTrack'
+    routes: {
+        '': 'playlist'
+        ,'playlist': 'playlist'
+        ,'nowPlaying': 'nowPlaying'
+        ,'searchTrack': 'searchTrack'
         ,'addTrack': 'addTrack'
-	}
+    }
+
+    ,initialize: function initialize() {
+        this.views = {};
+        this.views.playlist = new kaffeeundkuchen.view.Playlist();
+        this.views.newPlaying = new kaffeeundkuchen.view.NowPlaying();
+        this.views.searchTrack = new kaffeeundkuchen.view.SearchTrack();
+        this.views.addTrack = new kaffeeundkuchen.view.AddTrack();
+    }
+
+
 
 	,playlist: function playlist() {
-		var playlistView = new kaffeeundkuchen.view.Playlist();
-		this.renderView(playlistView);
+		this.renderView(this.views.playlist);
 	}
 
 	,nowPlaying: function nowPlaying() {
-		var nowPlayingView = new kaffeeundkuchen.view.NowPlaying();
-		this.renderView(nowPlayingView);
+		this.renderView(this.views.nowPlaying);
 	}
 
     ,searchTrack: function searchTrack() {
-        var searchTrack = new kaffeeundkuchen.view.SearchTrack();
-        this.renderView(searchTrack);
+        this.renderView(this.views.searchTrack);
     }
 
     ,addTrack: function addTrack() {
-        var addTrack = new kaffeeundkuchen.view.AddTrack();
-        this.renderView(addTrack);
+        this.renderView(this.views.addTrack);
     }
 });
 
 
 var appRouter = new kaffeeundkuchen.AppRouter();
 var overlay = new kaffeeundkuchen.view.Overlay();
+var dataStore = {};
+
 Backbone.history.start();
+})(templates);
