@@ -1,15 +1,15 @@
 'use strict';
 
-var Log = require('../config/logger.js')
-	,Util = require('util')
-	,EventEmitter = require('events').EventEmitter
-	,spotify = require('libspotify');
+var debug = require('debug')('kaffeeundkuchen.utils.spotifywrapper')
+	, Util = require('util')
+	, EventEmitter = require('events').EventEmitter
+	, spotify = require('libspotify');
 
 
 var _self = this
-	,_config = {}
-	,_trackCache = {}
-	,_spotify_session = undefined;
+	, _config = {}
+	, _trackCache = {}
+	, _spotify_session = undefined;
 
 /** Class: SpotifyWrapper
  * Wraps around the libspotify NodeJS module.
@@ -56,13 +56,13 @@ SpotifyWrapper.prototype.searchTrack = function searchTrack(artist, track, callb
 
 		_spotify_session.once('login', function(err) {
 			if(err) {
-				Log.error('Spotify login failed!', err);
+				debug('Spotify login failed!', err);
 				callback([]);
 			} else {
-				Log.info('Spotify login successful');
+				debug('Spotify login successful');
 				_searchTrack(artist, track, callback);
 			}
-			
+
 		});
 	} else {
 		_searchTrack(artist, track, callback);
@@ -77,13 +77,13 @@ SpotifyWrapper.prototype.searchTrack = function searchTrack(artist, track, callb
  *
  * Parameters:
  *     (String) spotifyId - ID of the desired track information
- * 
+ *
  * Returns:
  *     (Object) || undefined
  */
 SpotifyWrapper.prototype.getCachedTrack = function getCachedTrack(spotifyId) {
 	var cachedTrack = undefined;
-	
+
 	if(_trackCache[spotifyId] !== undefined) {
 		cachedTrack = _trackCache[spotifyId];
 	}
@@ -93,7 +93,7 @@ SpotifyWrapper.prototype.getCachedTrack = function getCachedTrack(spotifyId) {
 
 
 /** PrivateMethod: _searchTrack
- * 
+ *
  * Parameters:
  *     (String) artist - optional, at least one of them
  *     (String) track - optional, at least one of them
@@ -107,13 +107,13 @@ var _searchTrack = function searchTrack(artist, track, callback) {
 		}
 		,queryString = _buildQueryString(queryData)
 		,search = new spotify.Search(queryString);
-	
+
 	search.trackCount = _config.spotify.maxResults;
 	search.execute();
 	search.on('ready', function() {
 		var preparedTracks = _prepareSpotifyTracks(search.tracks);
 		callback(preparedTracks);
-		
+
 		preparedTracks.forEach(function(preparedTrack) {
 			_trackCache[preparedTrack.spotifyId] = preparedTrack;
 		});

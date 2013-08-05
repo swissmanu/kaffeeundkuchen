@@ -1,8 +1,8 @@
 'use strict';
 
-var Log = require('../config/logger.js')
-	,Util = require('util')
-	,EventEmitter = require('events').EventEmitter;
+var debug = require('debug')('kaffeeundkuchen.model.playlist')
+	, Util = require('util')
+	, EventEmitter = require('events').EventEmitter;
 
 /** Class: Playlist
  *
@@ -27,7 +27,7 @@ var Playlist = function Playlist(tracks) {
 	};
 
 	_self.voteTrackUp = function voteTrackUp(spotifyId) {
-		Log.warn('Implement Playlist.voteTrackUp!');
+		debug('Implement Playlist.voteTrackUp!');
 		_self.emit('voted', spotifyId);
 	};
 
