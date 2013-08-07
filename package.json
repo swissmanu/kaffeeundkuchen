@@ -27,4 +27,15 @@
 		, "igneous": "0.1.6"
 		, "debug": "0.7.2"
 	}
+	, "devDependencies": {
+		"mocha": "~1.8.2"
+		, "chai": "~1.5.0"
+		, "jshint": "~1.1.0"
+		, "mocha-lcov-reporter": "~0.0.1"
+		, "coveralls": "~2.0.7"
+	}
+	, "scripts": {
+		"start": "node app/app.js"
+		, "test": "make test"
+	}
 }

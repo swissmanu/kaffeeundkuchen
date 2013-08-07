@@ -4,7 +4,7 @@ var debug = require('debug')('kaffeeundkuchen')
 	, mdns = require('mdns')
 	, express = require('express')
 	, http = require('http')
-	, config = require('./config/config')
+	, config = require('../config/config')
 	, Playlist = require('./models/playlist')
 	, SpotifyWrapper = require('./utils/spotifywrapper')
 	, igneous = require('igneous');
@@ -29,7 +29,7 @@ function createExpressApp(config, spotifyWrapper, playlist) {
 
 	app.use(express.static(__dirname + '/client'));
 	app.use(express.bodyParser());
-	app.use(createAssetPipelineMiddleware());
+	//app.use(createAssetPipelineMiddleware());
 
 	app.use(api);
 

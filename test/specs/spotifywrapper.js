@@ -1,0 +1,3 @@
+describe('SpotifyWrapper', function() {
+
+});

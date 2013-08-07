@@ -28,6 +28,15 @@ module.exports = SpotifyWrapper;
 
 
 
+SpotifyWrapper.prototype.playTrack = function playTrack(track) {
+	ensureSpotifySession(function onSession(session) {
+		var player = session.getPlayer()
+			, cachedSpotifyTrack = _trackCache[track.spotifyId];
+
+		//player.load(track)
+	});
+}
+
 /** Method: searchTrack
  * Searches for music tracks using the given search criteria (arist and/or
  * track name).
@@ -42,13 +51,26 @@ module.exports = SpotifyWrapper;
  *                           Parameters: [(Array)tracks]
  */
 SpotifyWrapper.prototype.searchTrack = function searchTrack(artist, track, callback) {
-	if(_spotify_session == undefined) {
+	ensureSpotifySession(function onSession() {
+		_searchTrack(artist, track, callback);
+	});
+};
+
+
+function ensureSpotifySession(onSession, onError) {
+	debug('ensure spotify session is valid');
+
+	if(_spotify_session === undefined) {
+		debug('create new spotify session');
+
 		_spotify_session = new spotify.Session({
 			applicationKey: __dirname + '/../' + _config.spotify.appKeyFile
 		});
 	}
 
 	if(!_spotify_session.isLoggedIn()) {
+		debug('try logging in');
+
 		_spotify_session.login(
 			_config.spotify.username
 			,_config.spotify.password
@@ -56,18 +78,23 @@ SpotifyWrapper.prototype.searchTrack = function searchTrack(artist, track, callb
 
 		_spotify_session.once('login', function(err) {
 			if(err) {
-				debug('Spotify login failed!', err);
-				callback([]);
+				debug('Spotify login failed');
+				if(onError) {
+					onError();
+				}
 			} else {
 				debug('Spotify login successful');
-				_searchTrack(artist, track, callback);
+				if(onSession) {
+					onSession(_spotify_session);
+				}
 			}
-
 		});
 	} else {
-		_searchTrack(artist, track, callback);
+		if(onSession) {
+			onSession(_spotify_session);
+		}
 	}
-};
+}
 
 /** Method: getCachedTrack
  * The SpotifyWrapper caches searched tracks internally using their IDs for
@@ -82,6 +109,8 @@ SpotifyWrapper.prototype.searchTrack = function searchTrack(artist, track, callb
  *     (Object) || undefined
  */
 SpotifyWrapper.prototype.getCachedTrack = function getCachedTrack(spotifyId) {
+	debug('get cached track');
+
 	var cachedTrack = undefined;
 
 	if(_trackCache[spotifyId] !== undefined) {
@@ -101,6 +130,8 @@ SpotifyWrapper.prototype.getCachedTrack = function getCachedTrack(spotifyId) {
  *                           Parameters: [(Array)tracks]
  */
 var _searchTrack = function searchTrack(artist, track, callback) {
+	debug('search track');
+
 	var queryData = {
 			artist: artist
 			,track: track
@@ -111,11 +142,13 @@ var _searchTrack = function searchTrack(artist, track, callback) {
 	search.trackCount = _config.spotify.maxResults;
 	search.execute();
 	search.on('ready', function() {
+		debug('search results ready')
 		var preparedTracks = _prepareSpotifyTracks(search.tracks);
 		callback(preparedTracks);
 
-		preparedTracks.forEach(function(preparedTrack) {
-			_trackCache[preparedTrack.spotifyId] = preparedTrack;
+		search.tracks.forEach(function(spotifyTrack) {
+			var spotifyId = spotifyTrack.getUrl().replace(/:/g, '-');
+			_trackCache[spotifyId] = spotifyTrack;
 		});
 	});
 };
@@ -131,6 +164,8 @@ var _searchTrack = function searchTrack(artist, track, callback) {
  *              'artist: "xy"'
  */
 var _buildQueryString = function buildQueryString(queryData) {
+	debug('build query string');
+
 	var queryString = '';
 
 	for(var key in queryData) {
@@ -156,12 +191,20 @@ var _prepareSpotifyTracks = function prepareSpotifyTracks(spotifyTracks) {
 	var preparedTracks = [];
 
 	spotifyTracks.forEach(function(spotifyTrack) {
-		preparedTracks.push({
-			artist: spotifyTrack.artist.name
-			,track: spotifyTrack.name
-			,spotifyId: spotifyTrack.getUrl().replace(/:/g,'-')
-		});
+		preparedTracks.push(_extractTrackInformation(spotifyTrack));
 	});
 
 	return preparedTracks;
+}
+
+var _extractTrackInformation = function extractTrackInformation(spotifyTrack) {
+	var artist = spotifyTrack.artist.name
+		, track = spotifyTrack.name
+		, spotifyId = spotifyTrack.getUrl().replace(/:/g, '-');
+
+	return {
+		artist: artist
+		, track: track
+		, spotifyId: spotifyId
+	};
 }
