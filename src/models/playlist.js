@@ -1,4 +1,3 @@
-'use strict';
 
 var debug = require('debug')('kaffeeundkuchen.model.playlist')
 	, Util = require('util')
@@ -39,7 +38,7 @@ var Playlist = function Playlist(tracks) {
 			,track: track
 			,score: 0
 		};
-	}
+	};
 
 };
 

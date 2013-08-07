@@ -1,4 +1,3 @@
-'use strict';
 
 var debug = require('debug')('kaffeeundkuchen')
 	, mdns = require('mdns')
@@ -6,17 +5,8 @@ var debug = require('debug')('kaffeeundkuchen')
 	, http = require('http')
 	, config = require('../config/config')
 	, Playlist = require('./models/playlist')
-	, SpotifyWrapper = require('./utils/spotifywrapper')
-	, igneous = require('igneous');
-
-debug('Starting KaffeeUndKuchen');
-
-var playlist = new Playlist()
-	,spotifyWrapper = new SpotifyWrapper(config)
-	,app = createExpressApp(config, spotifyWrapper, playlist)
-	,server = createAdvertableServerFromExpressApp(app, config);
-
-server.listen(config.server.port);
+	, SpotifyWrapper = require('./utils/spotifywrapper');
+	//, igneous = require('igneous');
 
 /**
  *
@@ -38,7 +28,7 @@ function createExpressApp(config, spotifyWrapper, playlist) {
 
 /**
  *
- */
+ *
 function createAssetPipelineMiddleware() {
 	var assetPipelineMiddleware = igneous({
 		root: __dirname + '/client/assets/'
@@ -84,7 +74,7 @@ function createAssetPipelineMiddleware() {
 	});
 
 	return assetPipelineMiddleware;
-}
+}*/
 
 /**
  *
@@ -100,10 +90,23 @@ function createAdvertableServerFromExpressApp(app, config) {
 	if(announce) {
 		debug('Announcing Port ' + config.server.port + ' with Bonjour');
 		server.on('listening', function() {
-			var advertisment = mdns.createAdvertisement(mdns.tcp('http'), config.server.port, { name: 'KaffeeUndKuchen' } );
+			var advertisment = mdns.createAdvertisement(
+				mdns.tcp('http')
+				, config.server.port
+				, { name: 'KaffeeUndKuchen' }
+			);
 			advertisment.start();
 		});
 	}
 
 	return server;
 }
+
+debug('Starting KaffeeUndKuchen');
+
+var playlist = new Playlist()
+	,spotifyWrapper = new SpotifyWrapper(config)
+	,app = createExpressApp(config, spotifyWrapper, playlist)
+	,server = createAdvertableServerFromExpressApp(app, config);
+
+server.listen(config.server.port);

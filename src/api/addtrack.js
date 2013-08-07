@@ -1,5 +1,3 @@
-'use strict';
-
 var debug = require('debug')('kaffeeundkuchen.api.addtrack');
 
 /** Route: AddTrack
@@ -21,7 +19,7 @@ module.exports = function AddTrack(config, spotifyWrapper, playlist) {
 		if(validateInput(input)) {
 			var spotifyTrack = spotifyWrapper.getCachedTrack(input.spotifyId);
 			if(spotifyTrack === undefined) {
-				debug('Track not found in cache. Probably not searched before?', {spotifyId: input.spotifyId});
+				debug('Track not found in cache. Not searched before?');
 				responseData.statusCode = 400;
 			} else {
 				playlist.addTrack(
@@ -36,12 +34,12 @@ module.exports = function AddTrack(config, spotifyWrapper, playlist) {
 		}
 
 		res.json(responseData.statusCode, responseData.content);
-	}
+	};
 
 	var validateInput = function validateInput(input) {
 		var valid = (input !== undefined && input.spotifyId !== undefined);
 		return valid;
-	}
+	};
 
 	return handleRequest;
 };
