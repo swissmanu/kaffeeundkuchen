@@ -3,9 +3,9 @@ var chai = require('chai')
 chai.should();
 
 if(process.env.KAFFEEUNDKUCHEN_COVERAGE) {
-	appPath = '../lib-cov';
+	appPath = '../src-cov';
 } else {
-	appPath = '../lib';
+	appPath = '../src';
 }
 global.appPath = appPath;
 
