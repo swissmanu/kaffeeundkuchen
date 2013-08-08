@@ -1,6 +1,6 @@
 
 var debug = require('debug')('kaffeeundkuchen')
-	, mdns = require('mdns')
+	//, mdns = require('mdns')
 	, express = require('express')
 	, http = require('http')
 	, config = require('../config/config')
@@ -82,7 +82,7 @@ function createAssetPipelineMiddleware() {
 /**
  *
  */
-function createAdvertableServerFromExpressApp(app, config) {
+/*function createAdvertableServerFromExpressApp(app, config) {
 	debug('create advertable server from express app');
 
 	var server = http.createServer(app)
@@ -103,13 +103,13 @@ function createAdvertableServerFromExpressApp(app, config) {
 	}
 
 	return server;
-}
+}*/
 
 debug('Starting KaffeeUndKuchen');
 
 var playlist = new Playlist()
 	, spotifyWrapper = new SpotifyWrapper(config)
-	, app = createExpressApp(config, spotifyWrapper, playlist)
-	, server = createAdvertableServerFromExpressApp(app, config);
+	, app = createExpressApp(config, spotifyWrapper, playlist);
+	//, server = createAdvertableServerFromExpressApp(app, config);
 
 server.listen(config.server.port);
