@@ -2,7 +2,7 @@
 var debug = require('debug')('kaffeeundkuchen')
 	//, mdns = require('mdns')
 	, express = require('express')
-	, http = require('http')
+	//, http = require('http')
 	, config = require('../config/config')
 	, Playlist = require('./models/playlist')
 	, SpotifyWrapper = require('./utils').SpotifyWrapper;
@@ -112,4 +112,4 @@ var playlist = new Playlist()
 	, app = createExpressApp(config, spotifyWrapper, playlist);
 	//, server = createAdvertableServerFromExpressApp(app, config);
 
-server.listen(config.server.port);
+app.listen(config.server.port);

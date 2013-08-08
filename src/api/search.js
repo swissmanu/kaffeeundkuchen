@@ -1,5 +1,10 @@
 var debug = require('debug')('kaffeeundkuchen.api.search');
 
+function validateInput(input) {
+	var valid = (input.artist !== undefined) || (input.track !== undefined);
+	return valid;
+}
+
 function handleRequest(req, res) {
 	debug('handle request');
 
@@ -11,7 +16,7 @@ function handleRequest(req, res) {
 			function onSuccess(tracks) {
 				res.json(200, tracks);
 			}
-			, function onError(err) {
+			, function onError() {
 				res.json(500);
 			}
 		);
@@ -19,11 +24,6 @@ function handleRequest(req, res) {
 		debug('Invalid Search request');
 		res.json(400); // Bad Request
 	}
-}
-
-function validateInput(input) {
-	var valid = (input.artist !== undefined) || (input.track !== undefined);
-	return valid;
 }
 
 module.exports = handleRequest;

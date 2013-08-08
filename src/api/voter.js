@@ -7,6 +7,6 @@ function handleRequest(req, res) {
 	debug('Route: Voter');
 
 	res.json(200, {'spotifyId': spotifyId});
-};
+}
 
 module.exports = handleRequest;

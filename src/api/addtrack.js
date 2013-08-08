@@ -1,5 +1,10 @@
 var debug = require('debug')('kaffeeundkuchen.api.addtrack');
 
+function validateInput(input) {
+	var valid = (input !== undefined && input.spotifyId !== undefined);
+	return valid;
+}
+
 function handleRequest(req, res) {
 	debug('handle request');
 
@@ -30,11 +35,6 @@ function handleRequest(req, res) {
 	}
 
 	res.json(responseData.statusCode, responseData.content);
-}
-
-function validateInput(input) {
-	var valid = (input !== undefined && input.spotifyId !== undefined);
-	return valid;
 }
 
 module.exports = handleRequest;
