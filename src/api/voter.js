@@ -1,15 +1,12 @@
 
 var debug = require('debug')('kaffeeundkuchen.api.voter');
 
-module.exports = function Voter() {
+function handleRequest(req, res) {
+	var spotifyId = req.params.spotifyId;
 
-	var handleRequest = function handleRequest(req, res) {
-		var spotifyId = req.params.spotifyId;
+	debug('Route: Voter');
 
-		debug('Route: Voter');
-
-		res.json(200, {'spotifyId': spotifyId});
-	};
-
-	return handleRequest;
+	res.json(200, {'spotifyId': spotifyId});
 };
+
+module.exports = handleRequest;

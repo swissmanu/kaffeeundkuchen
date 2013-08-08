@@ -24,6 +24,9 @@ module.exports = SpotifyWrapper;
 
 
 
+function getSpotifyInstance() {
+	return spotify;
+}
 
 /** PrivateFunction: _buildQueryString
  * Takes an object literal and builds a Spotify query string with it.
@@ -107,10 +110,12 @@ function playTrack(/*track*/) {
  * Parameters:
  *     (String) artist - The performing artist
  *     (String) track - Track name
- *     (Function) callback - Executed after the search was finished
+ *     (Function) onSuccess - Executed after the search was finished
  *                           Parameters: [(Array)tracks]
+ *     (Function) onError - Executed after the search was finished
+ *                          Parameters: [(Error)error]
  */
-function searchTrack(artist, track, callback) {
+function searchTrack(artist, track, onSuccess, onError) {
 	var self = this;
 
 	self.ensureSpotifySession(function onSession() {
@@ -122,18 +127,26 @@ function searchTrack(artist, track, callback) {
 			, search = new spotify.Search(queryString);
 
 		search.trackCount = _config.spotify.maxResults;
-		search.execute();
+
 		search.on('ready', function() {
 			debug('search results ready');
 
 			var preparedTracks = prepareSpotifyTracks(search.tracks);
-			callback(preparedTracks);
+			onSuccess(preparedTracks);
 
 			search.tracks.forEach(function(spotifyTrack) {
 				var spotifyId = spotifyTrack.getUrl().replace(/:/g, '-');
 				_trackCache[spotifyId] = spotifyTrack;
 			});
 		});
+
+		search.on('error', function(error) {
+			if(onError) {
+				onError(error);
+			}
+		});
+
+		search.execute();
 
 	});
 }
@@ -205,3 +218,4 @@ SpotifyWrapper.prototype.playTrack = playTrack;
 SpotifyWrapper.prototype.searchTrack = searchTrack;
 SpotifyWrapper.prototype.ensureSpotifySession = ensureSpotifySession;
 SpotifyWrapper.prototype.getCachedTrack = getCachedTrack;
+SpotifyWrapper.prototype.getSpotifyInstance = getSpotifyInstance;

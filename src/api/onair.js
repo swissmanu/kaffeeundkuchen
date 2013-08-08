@@ -1,18 +1,16 @@
 
 var debug = require('debug')('kaffeeundkuchen.api.onair');
 
-module.exports = function OnAir(config, playlist) {
+function handleRequest(req, res) {
+	debug('handle request');
 
-	var handleRequest = function handleRequest(req, res) {
-		debug('handle request');
+	var playlist = req.app.get('playlist')
+		, responseData = {
+			statusCode : 200
+			, content : playlist.getTracks()
+		};
 
-		var responseData = {
-				statusCode : 200
-				, content : playlist.getTracks()
-			};
+	res.json(responseData.statusCode, responseData.content);
+}
 
-		res.json(responseData.statusCode, responseData.content);
-	};
-
-	return handleRequest;
-};
+module.exports = handleRequest;

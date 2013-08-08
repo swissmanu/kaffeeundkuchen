@@ -5,7 +5,7 @@ var debug = require('debug')('kaffeeundkuchen')
 	, http = require('http')
 	, config = require('../config/config')
 	, Playlist = require('./models/playlist')
-	, SpotifyWrapper = require('./utils/spotifywrapper');
+	, SpotifyWrapper = require('./utils').SpotifyWrapper;
 	//, igneous = require('igneous');
 
 /**
@@ -15,12 +15,15 @@ function createExpressApp(config, spotifyWrapper, playlist) {
 	debug('create express app');
 
 	var app = express()
-		, api = require('./api')(config, spotifyWrapper, playlist);
+		, api = require('./api')();
 
-	app.use(express.static(__dirname + '/client'));
+	app.set('config', config);
+	app.set('spotifyWrapper', spotifyWrapper);
+	app.set('playlist', playlist);
+
+	//app.use(express.static(__dirname + '/client'));
 	app.use(express.bodyParser());
 	//app.use(createAssetPipelineMiddleware());
-
 	app.use(api);
 
 	return app;
@@ -105,8 +108,8 @@ function createAdvertableServerFromExpressApp(app, config) {
 debug('Starting KaffeeUndKuchen');
 
 var playlist = new Playlist()
-	,spotifyWrapper = new SpotifyWrapper(config)
-	,app = createExpressApp(config, spotifyWrapper, playlist)
-	,server = createAdvertableServerFromExpressApp(app, config);
+	, spotifyWrapper = new SpotifyWrapper(config)
+	, app = createExpressApp(config, spotifyWrapper, playlist)
+	, server = createAdvertableServerFromExpressApp(app, config);
 
 server.listen(config.server.port);

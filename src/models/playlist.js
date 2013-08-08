@@ -1,4 +1,3 @@
-
 var debug = require('debug')('kaffeeundkuchen.model.playlist')
 	, Util = require('util')
 	, EventEmitter = require('events').EventEmitter;
@@ -11,34 +10,34 @@ var debug = require('debug')('kaffeeundkuchen.model.playlist')
  *     voted - Fired when the score of a track was changed by a vote.
  *             Parameters: [(Object)changedTrack]
  */
-var Playlist = function Playlist(tracks) {
-	var _self = this
-		,_tracks = tracks || [];
+var Playlist = function Playlist(initialTracks) {
+	var self = this
+		, tracks = initialTracks || [];
 
-	_self.getTracks = function getTracks() {
-		return _tracks;
+	self.getTracks = function getTracks() {
+		return tracks;
 	};
 
-	_self.addTrack = function addTrack(spotifyId, artist, track) {
+	self.addTrack = function addTrack(spotifyId, artist, track) {
 		var newTrack = buildTrackData(spotifyId, artist, track);
-		_tracks.push(newTrack);
-		_self.emit('added', newTrack);
+		tracks.push(newTrack);
+		self.emit('added', newTrack);
 	};
 
-	_self.voteTrackUp = function voteTrackUp(spotifyId) {
+	self.voteTrackUp = function voteTrackUp(spotifyId) {
 		debug('Implement Playlist.voteTrackUp!');
-		_self.emit('voted', spotifyId);
+		self.emit('voted', spotifyId);
 	};
 
 
-	var buildTrackData = function buildTrackData(spotifyId, artist, track) {
+	function buildTrackData(spotifyId, artist, track) {
 		return {
 			spotifyId: spotifyId
 			,artist: artist
 			,track: track
 			,score: 0
 		};
-	};
+	}
 
 };
 

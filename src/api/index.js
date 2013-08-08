@@ -1,16 +1,16 @@
-function apiInit(config, spotifyWrapper, playlist) {
-	var Search = require('./search')
-		, OnAir = require('./onair')
-		, AddTrack = require('./addtrack')
-		, Voter = require('./voter')
-		, api = require('express')();
+function apiInit() {
+	var search = require('./search')
+		, onair = require('./onair')
+		, addTrack = require('./addtrack')
+		, voter = require('./voter')
+		, apiApp = require('express')();
 
-	api.post('/api/search', new Search(config, spotifyWrapper));
-	api.get('/api/tracks', new OnAir(config, spotifyWrapper, playlist));
-	api.post('/api/tracks', new AddTrack(config, spotifyWrapper, playlist));
-	api.put('/api/tracks/:id/vote', new Voter(config, playlist));
+	apiApp.post('/api/search', search);
+	apiApp.get('/api/tracks', onair);
+	apiApp.post('/api/tracks', addTrack);
+	apiApp.put('/api/tracks/:id/vote', voter);
 
-	return api;
+	return apiApp;
 }
 
 module.exports = apiInit;
