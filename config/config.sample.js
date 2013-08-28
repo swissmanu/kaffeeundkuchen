@@ -26,13 +26,13 @@
 var config = {
 	server: {
 		port: 80
-		,announceWithBonjour: true
+		, announceWithBonjour: true
 	}
-	,spotify: {
+	, spotify: {
 		username: 'username'
-		,password: 'password'
-		,appKeyFile: 'config/spotify_appkey.key'
-		,maxResults: 20
+		, password: 'password'
+		, appKeyFile: 'config/spotify_appkey.key'
+		, maxResults: 20
 	}
 };
 

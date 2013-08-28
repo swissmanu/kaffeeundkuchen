@@ -21,7 +21,7 @@ function createExpressApp(config, spotifyWrapper, playlist) {
 	app.set('spotifyWrapper', spotifyWrapper);
 	app.set('playlist', playlist);
 
-	//app.use(express.static(__dirname + '/client'));
+	app.use(express.static(__dirname + '/client'));
 	app.use(express.bodyParser());
 	//app.use(createAssetPipelineMiddleware());
 	app.use(api);
