@@ -30,7 +30,7 @@ function createExpressApp(config, spotifyWrapper, playlist) {
 	return app;
 }
 
+var app = createExpressApp(config, spotifyWrapper, playlist);
 
 debug('Starting KaffeeUndKuchen on port ' + config.server.port);
-var app = createExpressApp(config, spotifyWrapper, playlist);
 app.listen(config.server.port);

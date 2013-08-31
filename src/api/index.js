@@ -1,4 +1,8 @@
+var debug = require('debug')('kaffeeundkuchen.api')
+
 function apiInit() {
+	debug('inititialize api module');
+
 	var search = require('./search')
 		, onair = require('./onair')
 		, addTrack = require('./addtrack')
