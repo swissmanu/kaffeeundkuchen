@@ -1,4 +1,4 @@
-var debug = require('debug')('kaffeeundkuchen.api')
+var debug = require('debug')('kaffeeundkuchen.api');
 
 function apiInit() {
 	debug('inititialize api module');
