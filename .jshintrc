@@ -1,5 +1,8 @@
 /** File: .jshintrc
- * Configuration for JSHint, the easiert JSLint alternative
+ * Configuration for JSHint, the easier JSLint alternative.
+ *
+ * Since the client part uses AngularJS, we allow the "angular" object as a
+ * global.
  *
  * See also:
  * - http://www.jshint.com/docs/#config
@@ -18,4 +21,8 @@
 	, "maxdepth": 3
 	, "maxlen": 80
 	, "laxcomma": true
+
+	, "globals": {
+		"angular": true
+	}
 }
