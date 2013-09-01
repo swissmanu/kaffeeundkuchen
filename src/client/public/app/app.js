@@ -15,6 +15,10 @@
 				templateUrl: 'partials/playlist.html'
 				, controller: 'PlaylistController'
 			})
+			.when('/search', {
+				templateUrl: 'partials/search.html'
+				, controller: 'SearchController'
+			})
 			.otherwise({ redirectTo: '/' });
 
 			$locationProvider.html5Mode(true);

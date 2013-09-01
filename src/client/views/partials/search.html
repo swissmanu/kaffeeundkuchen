@@ -1,0 +1,12 @@
+<section data-ng-controller="SearchController">
+	<form name="searchForm">
+		<input type="search" id="txtSearch" name="txtSearch" data-ng-model="txtSearch" />
+		<button data-ng-click="onBtnSearchClick()">Search</button>
+	</form>
+
+	<ul data-ng-if="searchResults.length > 0">
+		<li data-ng-repeat="result in searchResults">
+			{{ result.title }} by {{ result.artist }}
+		</li>
+	</ul>
+</section>
