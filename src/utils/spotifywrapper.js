@@ -108,22 +108,17 @@ function playTrack(/*track*/) {
  * gets executed.
  *
  * Parameters:
- *     (String) artist - The performing artist
- *     (String) track - Track name
+ *     (String) queryData - An object with entries like "artist" or "title"
  *     (Function) onSuccess - Executed after the search was finished
  *                           Parameters: [(Array)tracks]
  *     (Function) onError - Executed after the search was finished
  *                          Parameters: [(Error)error]
  */
-function searchTrack(artist, track, onSuccess, onError) {
+function searchTrack(queryData, onSuccess, onError) {
 	var self = this;
 
 	self.ensureSpotifySession(function onSession() {
-		var queryData = {
-				artist: artist
-				, track: track
-			}
-			, queryString = buildQueryString(queryData)
+		var queryString = buildQueryString(queryData)
 			, search = new spotify.Search(queryString);
 
 		search.trackCount = _config.spotify.maxResults;

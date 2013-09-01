@@ -19,6 +19,7 @@ function createExpressApp(config, spotifyWrapper, playlist) {
 	app.use(api);
 	app.use(client);
 
+
 	return app;
 }
 

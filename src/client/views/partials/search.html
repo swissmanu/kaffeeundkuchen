@@ -1,12 +1,13 @@
 <section data-ng-controller="SearchController">
 	<form name="searchForm">
-		<input type="search" id="txtSearch" name="txtSearch" data-ng-model="txtSearch" />
+		<input type="text" id="txtArtist" name="txtArtist" data-ng-model="txtArtist" />
+		<input type="text" id="txtTrack" name="txtTrack" data-ng-model="txtTrack" />
 		<button data-ng-click="onBtnSearchClick()">Search</button>
 	</form>
 
 	<ul data-ng-if="searchResults.length > 0">
 		<li data-ng-repeat="result in searchResults">
-			{{ result.title }} by {{ result.artist }}
+			{{ result.track }} by {{ result.artist }}
 		</li>
 	</ul>
 </section>

@@ -16,20 +16,22 @@
 	}
 	PlaylistController.$inject = ['$scope'];
 
-	function SearchController($scope/*, $routeParams*/) {
-		$scope.txtSearch = '';
+	function SearchController($scope, trackSearchService) {
 		$scope.searchResults = [];
 
 		$scope.onBtnSearchClick = function onBtnSearchClick() {
-			console.log('search ' + $scope.txtSearch);
+			var query = {
+				artist: $scope.txtArtist
+				, track: $scope.txtTrack
+			};
 
-			$scope.searchResults = [{
-				'title': 'VCR'
-				, 'artist': 'The xx'
-			}];
+			trackSearchService.search(query)
+			.then(function foundTracks(tracks) {
+				$scope.searchResults = tracks;
+			});
 		};
 	}
-	SearchController.$inject = ['$scope'];
+	SearchController.$inject = ['$scope', 'trackSearchService'];
 
 	angular.module('kuk.controllers')
 		.controller('NowPlayingController', NowPlayingController)

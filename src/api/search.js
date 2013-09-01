@@ -12,8 +12,8 @@ function handleRequest(req, res) {
 		, spotifyWrapper = req.app.get('spotifyWrapper');
 
 	if(validateInput(input)) {
-		spotifyWrapper.searchTrack(input.artist, input.track,
-			function onSuccess(tracks) {
+		spotifyWrapper.searchTrack(input
+			, function onSuccess(tracks) {
 				res.json(200, tracks);
 			}
 			, function onError() {
