@@ -3,11 +3,8 @@
  *
  * Server:
  * Port:
- *  On which network port should the KaffeeUndKuchen server be listening fot
+ *  On which network port should the KaffeeUndKuchen server be listening for
  *  connections?
- * announceWithBonjour:
- *  Should the KaffeeUndKuchen server be announced using Bonjour in the local
- *  network?
  *
  * Spotify Settings:
  * This section contains all stuff related to Spotify. Login to spotify.com and
@@ -26,7 +23,6 @@
 var config = {
 	server: {
 		port: 80
-		, announceWithBonjour: true
 	}
 	, spotify: {
 		username: 'username'

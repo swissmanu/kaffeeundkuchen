@@ -13,6 +13,16 @@ function handlePartial(req, res) {
 	res.sendfile(join(__dirname, 'views', 'partials', name));
 }
 
+function handleEngineIOClient(req, res) {
+	debug('handle engine.io client request');
+
+	var jsPath = join(
+		__dirname, '..', '..', 'node_modules'
+		, 'engine.io-client', 'engine.io.js');
+
+	res.sendfile(jsPath);
+}
+
 function clientInit() {
 	debug('inititialize client module');
 
@@ -20,6 +30,7 @@ function clientInit() {
 
 	clientApp.get('/', handleIndex);
 	clientApp.get('/partials/:name', handlePartial);
+	clientApp.get('/app/vendor/engine.io.js', handleEngineIOClient);
 
 	// The AngularJS app uses the HTML 5 mode for building URLs. So it's safe to
 	// handle all other requests like an index request.

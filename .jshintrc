@@ -1,8 +1,8 @@
 /** File: .jshintrc
  * Configuration for JSHint, the easier JSLint alternative.
  *
- * Since the client part uses AngularJS, we allow the "angular" object as a
- * global.
+ * Since the client part uses AngularJS and Engine.IO, we allow the "angular"
+ * and "eio" object as globals.
  *
  * See also:
  * - http://www.jshint.com/docs/#config
@@ -24,5 +24,6 @@
 
 	, "globals": {
 		"angular": true
+		, "eio": true
 	}
 }
