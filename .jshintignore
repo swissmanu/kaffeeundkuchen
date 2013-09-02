@@ -1,1 +1,2 @@
-src/client/public/app/vendor/**
+src/client/public/js/**
+src/client/app/vendor/angular/**
