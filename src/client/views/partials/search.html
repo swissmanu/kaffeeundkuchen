@@ -7,7 +7,7 @@
 
 	<ul data-ng-if="searchResults.length > 0">
 		<li data-ng-repeat="result in searchResults">
-			{{ result.track }} by {{ result.artist }}
+			<img data-ng-src="/images/cover/small/{{ result.spotifyId }}" /> {{ result.track }} by {{ result.artist }}
 		</li>
 	</ul>
 </section>
