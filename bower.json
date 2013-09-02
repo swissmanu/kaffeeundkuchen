@@ -1,6 +1,19 @@
 {
   "name": "kaffeeundkuchen",
   "version": "0.0.1",
+  "description": "kaffeeundkuchen - coffee and pi: Rock your party with this crowd driven spotify player.",
+  "keywords": [
+    "raspberrypi",
+    "pi",
+    "raspberry",
+    "airtunes",
+    "airplay",
+    "spotify",
+    "sound",
+    "audio",
+    "music",
+    "party"
+  ],
   "homepage": "https://github.com/swissmanu/kaffeeundkuchen",
   "authors": [
     "Manuel Alabor <msites@msites.net>"
