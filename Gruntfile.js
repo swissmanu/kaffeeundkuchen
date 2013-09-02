@@ -4,11 +4,8 @@ module.exports = function(grunt) {
 
 		, browserify: {
 			basic: {
-				src: ['src/client/app/*.js']
-				, dest: 'browserified.js'
-			}
-			, options: {
-				noParse: ['src/client/app/vendor/angular/*.js']
+				src: ['bower_components/angular/angular.min.js', 'src/client/app/*.js']
+				, dest: 'tmp/browserified.js'
 			}
 		}
 
@@ -17,7 +14,7 @@ module.exports = function(grunt) {
 				banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
 			}
 			, build: {
-				src: 'browserified.js'
+				src: 'tmp/browserified.js'
 				, dest: 'src/client/public/js/<%= pkg.name %>.min.js'
 			}
 		}

@@ -1,3 +1,4 @@
-var angular = require('./angular/angular.min.js');
+/* global window */
+require('../../../../bower_components/angular/angular.js');
 
-module.exports = angular;
+module.exports = window.angular;
