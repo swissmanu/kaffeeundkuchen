@@ -4,5 +4,7 @@ config/config.js
 config/spotify_appkey.key
 npm-debug.log
 src/client/public/js/kaffeeundkuchen.min.js
+src/client/public/css/kaffeeundkuchen.css
 bower_components/
 tmp/
+.sass-cache/

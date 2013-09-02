@@ -28,11 +28,20 @@ module.exports = function(grunt) {
 				, dest: 'src/client/public/js/<%= pkg.name %>.min.js'
 			}
 		}
+
+		, sass: {
+			build: {
+				files: {
+					'src/client/public/css/<%= pkg.name %>.css': 'src/client/sass/main.scss'
+				}
+			}
+		}
 	});
 
 	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-concat')
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-sass');
 
-	grunt.registerTask('default', ['browserify', 'concat', 'uglify']);
+	grunt.registerTask('default', ['browserify', 'concat', 'uglify', 'sass']);
 };
