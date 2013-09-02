@@ -1,3 +1,5 @@
+var angular = require('./vendor/angular-shim.js');
+
 (function() {
 
 	function TrackSearchService($http) {

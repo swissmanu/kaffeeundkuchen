@@ -3,3 +3,5 @@ node_modules
 config/config.js
 config/spotify_appkey.key
 npm-debug.log
+browserified.js
+src/client/public/js/kaffeeundkuchen.min.js

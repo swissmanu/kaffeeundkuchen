@@ -1,3 +1,5 @@
+var angular = require('./vendor/angular-shim.js');
+
 (function() {
 	angular.module('kuk.controllers', []);
 	angular.module('kuk.services', []);

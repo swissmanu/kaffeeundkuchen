@@ -1,5 +1,6 @@
-(function() {
+var angular = require('./vendor/angular-shim.js');
 
+(function() {
 
 	function NowPlayingController(/*$scope, $routeParams*/) {
 
