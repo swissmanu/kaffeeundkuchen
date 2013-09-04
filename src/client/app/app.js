@@ -3,7 +3,12 @@ var angular = require('./vendor/angular-shim.js');
 (function() {
 	angular.module('kuk.controllers', []);
 	angular.module('kuk.services', []);
-	angular.module('kuk', ['kuk.controllers', 'kuk.services']);
+	angular.module('kuk.directives', []);
+	angular.module('kuk', [
+		'kuk.controllers'
+		, 'kuk.services'
+		, 'kuk.directives'
+	]);
 
 	var app = angular.module('kuk');
 

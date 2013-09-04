@@ -41,7 +41,6 @@ var angular = require('./vendor/angular-shim.js');
 			.then(function(success) {
 				console.log('success? ' + success);
 			});
-			return;
 		};
 	}
 	SearchController.$inject = [
