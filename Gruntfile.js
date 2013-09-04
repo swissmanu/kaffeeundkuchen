@@ -1,3 +1,7 @@
+var path = require
+
+// TODO grunt install task which runs npm install, bower install and angular-latest build
+
 module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json')
@@ -5,16 +9,16 @@ module.exports = function(grunt) {
 		, browserify: {
 			build: {
 				src: [
-					'bower_components/angular/angular.min.js'
+					'bower_components/angular-latest/build/angular.min.js'
 					, 'src/client/app/**/*.js']
-				, dest: 'tmp/client-browserified.js'
+				, dest: 'tmp/js/client-browserified.js'
 			}
 		}
 
 		, concat: {
-			'tmp/concat.js': [
+			'tmp/js/concat.js': [
 				'node_modules/engine.io-client/engine.io.js'
-				, 'tmp/client-browserified.js'
+				, 'tmp/js/client-browserified.js'
 			]
 		}
 
@@ -24,15 +28,22 @@ module.exports = function(grunt) {
 			}
 
 			, build: {
-				src: 'tmp/concat.js'
+				src: 'tmp/js/concat.js'
 				, dest: 'src/client/public/js/<%= pkg.name %>.min.js'
 			}
 		}
 
 		, sass: {
-			build: {
+			options: {
+				cacheLocation: 'tmp/sass-cache'
+				, style: 'compressed'
+				,
+			}
+
+			, build: {
 				files: {
 					'src/client/public/css/<%= pkg.name %>.css': 'src/client/sass/main.scss'
+					, 'src/client/public/css/font-awesome.css': 'src/client/sass/fontawesome/font-awesome.scss'
 				}
 			}
 		}
