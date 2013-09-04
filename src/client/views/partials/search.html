@@ -1,13 +1,38 @@
-<section data-ng-controller="SearchController">
-	<form name="searchForm">
-		<input type="text" id="txtArtist" name="txtArtist" placeholder="Artist" data-ng-model="txtArtist" />
-		<input type="text" id="txtTrack" name="txtTrack" placeholder="Track" data-ng-model="txtTrack" />
-		<button data-ng-click="onBtnSearchClick()">Search</button>
-	</form>
-
-	<ul data-ng-if="searchResults.length > 0">
-		<li data-ng-repeat="result in searchResults">
-			<img data-ng-src="/images/cover/small/{{ result.spotifyId }}" /> {{ result.track }} by {{ result.artist }}
-		</li>
-	</ul>
-</section>
+<div data-ng-controller="SearchController">
+	<section class="row">
+		<form name="searchForm" class="twelve columns">
+			<ul>
+				<li class="field">
+					<input class="xxwide text input" type="text" id="txtArtist" name="txtArtist" placeholder="Artist" data-ng-model="txtArtist" />
+				</li>
+				<li class="field">
+					<input class="xxwide text input" type="text" id="txtTrack" name="txtTrack" placeholder="Track" data-ng-model="txtTrack" />
+				</li>
+				<li class="field">
+					<div class="medium primary btn"><button data-ng-click="onBtnSearchClick()">Search</button></div>
+				</li>
+			</ul>
+		</form>
+	</section>
+	<section class="row" ng-if="searchResults.length > 0">
+		<table class="striped twelve columns tracklist">
+			<thead>
+				<th class="cover-column"></th>
+				<th class="track-column">Track</th>
+				<th class="artist-column">Artist</th>
+				<th class="action-column"></th>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="track in searchResults">
+					<td class="cover-column"><img data-ng-src="/images/cover/small/{{ track.spotifyId }}" class="cover" /></td>
+					<td class="track-column">{{ track.track }}</td>
+					<td class="artist-column">{{ track.artist }}</td>
+					<td class="action-column">
+						<div class="small oval primary btn"><a href="#"><i class="icon icon-plus-sign"></i> <span>Add</span></a></div>
+						<div class="small oval primary btn"><a href="#"><i class="icon icon-play"></i> <span>Play now</span></a></div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
+</div>

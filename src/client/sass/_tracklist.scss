@@ -1,0 +1,43 @@
+.tracklist {
+
+	td {
+	vertical-align: middle;
+	}
+
+
+	@media only screen and (max-width: 768px) {
+		.action-column {
+			span {
+				display: none;
+				visibility: hidden;
+			}
+		}
+
+		.cover-column {
+			display: none;
+			visibility: hidden;
+		}
+	}
+
+	.cover-column {
+		width: 10%;
+	}
+
+	.track-column {
+		width: 40%;
+	}
+
+	.artist-column {
+		width: 30%;
+	}
+
+	.action-column {
+		width: 20%;
+	}
+
+	.cover {
+		width: 50px;
+		height: 50px;
+	}
+
+}

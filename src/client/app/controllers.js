@@ -9,9 +9,13 @@ var angular = require('./vendor/angular-shim.js');
 
 	function PlaylistController($scope) {
 		$scope.tracks = [{
-			title: 'Testtrack 1'
+			track: 'Testtrack 1'
+			, artist: 'Artist 1'
+			, spotifyId: 'spotify-track-4pYlJsKrPbc1Vy6OExIxZx'
 		}, {
-			title: 'Testtrack 2'
+			track: 'Testtrack 2'
+			, artist: 'Artist 2'
+			, spotifyId: 'spotify-track-5c7jkZ4daUcLIrKiyQGt8B'
 		}];
 
 	}
@@ -30,6 +34,10 @@ var angular = require('./vendor/angular-shim.js');
 			.then(function foundTracks(tracks) {
 				$scope.searchResults = tracks;
 			});
+		};
+
+		$scope.hasSearchResults = function hasSearchResults() {
+			return this.searchResults.length > 0;
 		};
 	}
 	SearchController.$inject = ['$scope', 'trackSearchService'];

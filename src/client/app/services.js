@@ -7,7 +7,7 @@ var angular = require('./vendor/angular-shim.js');
 			search: function search(query) {
 				var promise = $http({
 					method: 'POST'
-					, url: 'http://localhost:8080/api/search'
+					, url: 'http://192.168.5.31:8080/api/search'
 					, data: query
 				})
 				.then(function(response) {

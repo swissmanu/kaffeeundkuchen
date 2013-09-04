@@ -7,16 +7,24 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<script src="js/kaffeeundkuchen.min.js"></script>
+	<link href="css/gumby.css" rel="stylesheet" />
+	<link href="css/font-awesome.css" rel="stylesheet" />
 	<link href="css/kaffeeundkuchen.css" rel="stylesheet" />
 </head>
 <body>
-	<nav>
-		<ul>
-			<li><a href="/">Now Playing</a></li>
-			<li><a href="/playlist">Playlist</a></li>
-			<li><a href="/search">Search Tracks</a></li>
-		</ul>
-	</nav>
+	<div class="navbar">
+		<div class="row">
+			<nav class="ten columns">
+				<ol>
+					<!--li>KuK</li-->
+					<li><a href="/"><i class="icon icon-play"></i> <span>Now Playing</span></a></li>
+					<li><a href="/playlist"><i class="icon icon-list"></i> <span>Playlist</span></a></li>
+					<li><a href="/search"><i class="icon icon-search"></i> <span>Search Tracks</span></a></li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
 	<div ng-view></div>
 </body>
 </html>

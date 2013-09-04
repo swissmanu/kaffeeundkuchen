@@ -1,21 +1,4 @@
-@import "playlist";
-@import "overlay";
-
-form {
-	padding: 5px;
-}
-
-.hint {
-	margin: 0 10px 10px 10px;
-	padding: 10px;
-	color: #4c4c4c;
-}
-
-.clearfix:after {
-	content: "";
-	display: block;
-	clear: both;
-	visibility: hidden;
-	line-height: 0;
-	height: 0;
-}
+@import "_navigation";
+@import "_nowplaying";
+@import "_tracklist";
+@import "_overlay";
