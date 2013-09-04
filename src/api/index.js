@@ -8,6 +8,7 @@ function apiInit() {
 		, addTrack = require('./addtrack')
 		, voter = require('./voter')
 		, player = require('./player')
+		, output = require('./output')
 
 		, coverImage = require('./coverimage')
 
@@ -19,6 +20,10 @@ function apiInit() {
 	apiApp.put('/api/tracks/:id/vote', voter);
 
 	apiApp.get('/api/player/play/:trackid', player.play);
+
+	apiApp.get('/api/output/available', output.availableOutputs);
+	apiApp.get('/api/output/current', output.currentOutput);
+	apiApp.put('/api/output', output.setOutput);
 
 	apiApp.get('/images/cover/:size/:trackid', coverImage);
 	apiApp.get('/images/cover/:trackid', coverImage);

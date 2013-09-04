@@ -1,5 +1,7 @@
-var SpotifyWrapper = require('./spotifywrapper');
+var SpotifyWrapper = require('./spotifywrapper')
+	, airplayBrowser = require('./airplaybrowser');
 
 module.exports = {
 	SpotifyWrapper: SpotifyWrapper
+	, airplayBrowser: airplayBrowser
 };

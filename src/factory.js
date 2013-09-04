@@ -1,7 +1,7 @@
 var debug = require('debug')('kaffeeundkuchen.factory')
 	, express = require('express');
 
-function createExpressApp(config, spotifyWrapper, playlist) {
+function createExpressApp(config, spotifyWrapper, airplayBrowser, playlist) {
 	debug('create express app');
 
 	var app = express()
@@ -10,6 +10,7 @@ function createExpressApp(config, spotifyWrapper, playlist) {
 
 	app.set('config', config);
 	app.set('spotifyWrapper', spotifyWrapper);
+	app.set('airplayBrowser', airplayBrowser);
 	app.set('playlist', playlist);
 
 	app.use(express.bodyParser());
