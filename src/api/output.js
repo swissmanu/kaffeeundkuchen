@@ -8,11 +8,11 @@ function handleGetAvailableOutputs(req, res) {
 }
 
 function handleGetCurrentOutput(req, res) {
-
+	res.json({});
 }
 
 function handleSetOutput(req, res) {
-
+	res.json({});
 }
 
 
