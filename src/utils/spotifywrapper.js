@@ -4,7 +4,8 @@ var debug = require('debug')('kaffeeundkuchen.utils.spotifywrapper')
 	, spotify = require('libspotify')
 	, _config
 	, _trackCache = {}
-	, _spotifySession;
+	, _spotifySession
+	, spawn = require('child_process').spawn;
 
 
 /** Class: SpotifyWrapper
@@ -89,15 +90,27 @@ function prepareSpotifyTracks(spotifyTracks) {
 
 
 
-function playTrack(/*track*/) {
-	/*
-	this.ensureSpotifySession(function onSession(/*session*) {
-		/*var player = session.getPlayer()
-			, cachedSpotifyTrack = _trackCache[track.spotifyId];
+function playTrack(spotifyTrack) {
+	debug('play track');
 
-		player.load(track)*
+	this.ensureSpotifySession(function onSession(session) {
+		debug('got the session. play track now.');
+
+		var player = session.getPlayer();
+		player.load(spotifyTrack);
+		player.play();
+
+		var play = spawn('play', [
+			'-r', 44100, '-b', 16, '-L', '-c', 2, '-e'
+			, 'signed-integer', '-t', 'raw', '-'
+		]);
+		player.pipe(play.stdin);
+
+		player.once('track-end', function() {
+			debug('track ended');
+			player.stop();
+		});
 	});
-	*/
 }
 
 /** Method: searchTrack

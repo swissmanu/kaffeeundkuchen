@@ -7,7 +7,7 @@ var angular = require('./vendor/angular-shim.js');
 			search: function search(query) {
 				var promise = $http({
 					method: 'POST'
-					, url: 'http://192.168.5.31:8080/api/search'
+					, url: 'http://localhost:8080/api/search'
 					, data: query
 				})
 				.then(function(response) {
@@ -23,7 +23,27 @@ var angular = require('./vendor/angular-shim.js');
 		return instance;
 	}
 
+	function PlayerService($http) {
+		var instance = {
+			play: function play(spotifyId) {
+				var promise = $http({
+					method: 'GET'
+					, url: 'http://localhost:8080/api/player/play/' + spotifyId
+				})
+				.then(function(response) {
+					var success = response.data.success || false;
+					return success;
+				});
+
+				return promise;
+			}
+		};
+
+		return instance;
+	}
+
 	angular.module('kuk.services')
-		.factory('trackSearchService', ['$http', TrackSearchService]);
+		.factory('trackSearchService', ['$http', TrackSearchService])
+		.factory('playerService', ['$http', PlayerService]);
 
 })();

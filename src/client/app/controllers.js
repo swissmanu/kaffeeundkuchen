@@ -21,7 +21,7 @@ var angular = require('./vendor/angular-shim.js');
 	}
 	PlaylistController.$inject = ['$scope'];
 
-	function SearchController($scope, trackSearchService) {
+	function SearchController($scope, trackSearchService, playerService) {
 		$scope.searchResults = [];
 
 		$scope.onBtnSearchClick = function onBtnSearchClick() {
@@ -36,11 +36,18 @@ var angular = require('./vendor/angular-shim.js');
 			});
 		};
 
-		$scope.hasSearchResults = function hasSearchResults() {
-			return this.searchResults.length > 0;
+		$scope.onBtnPlayClick = function onBtnPlayClick(track) {
+			playerService.play(track.spotifyId)
+			.then(function(success) {
+				console.log('success? ' + success);
+			});
 		};
 	}
-	SearchController.$inject = ['$scope', 'trackSearchService'];
+	SearchController.$inject = [
+		'$scope'
+		, 'trackSearchService'
+		, 'playerService'
+	];
 
 	angular.module('kuk.controllers')
 		.controller('NowPlayingController', NowPlayingController)
