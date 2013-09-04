@@ -16,10 +16,21 @@ module.exports = function(grunt) {
 		}
 
 		, concat: {
-			'tmp/js/concat.js': [
-				'node_modules/engine.io-client/engine.io.js'
-				, 'tmp/js/client-browserified.js'
-			]
+			build: {
+				src: [
+					'node_modules/engine.io-client/engine.io.js'
+					, 'tmp/js/client-browserified.js'
+				]
+				, dest: 'tmp/js/concat.js'
+			}
+			, dev: {
+				src: [
+					'node_modules/engine.io-client/engine.io.js'
+					, 'tmp/js/client-browserified.js'
+				]
+				, dest: 'src/client/public/js/<%= pkg.name %>.min.js'
+			}
+
 		}
 
 		, uglify: {
@@ -37,7 +48,6 @@ module.exports = function(grunt) {
 			options: {
 				cacheLocation: 'tmp/sass-cache'
 				, style: 'compressed'
-				,
 			}
 
 			, build: {
@@ -54,5 +64,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 
-	grunt.registerTask('default', ['browserify', 'concat', 'uglify', 'sass']);
+	grunt.registerTask('default', ['browserify', 'concat:build', 'uglify', 'sass']);
+	grunt.registerTask('dev', ['browserify', 'concat:dev', 'sass']);
 };
