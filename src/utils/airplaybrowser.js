@@ -1,8 +1,22 @@
 var debug = require('debug')('kaffeeundkuchen.utils.airplaybrowser')
+	, util = require('util')
+	, EventEmitter = require('events').EventEmitter
 	, mdns = require('mdns2')
-	, airPlayService = 'raop'
-	, browser
-	, airplayTargets = {};
+	, airplayServiceName = 'raop'
+
+	, _browser
+	, _airplayTargets = {};
+
+
+/** Class: AirplayBrowser
+ *
+ */
+var AirplayBrowser = function AirplayBrowser() {
+	EventEmitter.call(this);
+};
+util.inherits(AirplayBrowser, EventEmitter);
+
+module.exports = AirplayBrowser;
 
 
 function handleServiceUp(service) {
@@ -15,44 +29,48 @@ function handleServiceUp(service) {
 		, port: service.port
 	};
 
-	airplayTargets[airplayTarget.name] = airplayTarget;
+	_airplayTargets[airplayTarget.name] = airplayTarget;
+	this.emit('discovered', airplayTarget);
 }
 
 function handleServiceDown(service) {
 	debug('airplay target disappeared');
 
 	var name = service.name;
-	delete airplayTargets[name];
+	delete _airplayTargets[name];
+
+	this.emit('disappeared', name);
 }
 
 function start() {
 	debug('start airplay browser');
 
-	if(!browser) {
-		browser = mdns.createBrowser(mdns.tcp(airPlayService));
-		browser.on('serviceUp', handleServiceUp);
-		browser.on('serviceDown', handleServiceDown);
+	if(!_browser) {
+		_browser = mdns.createBrowser(mdns.tcp(airplayServiceName));
+		_browser.on('serviceUp', handleServiceUp.bind(this));
+		_browser.on('serviceDown', handleServiceDown.bind(this));
 	}
 
-	airplayTargets = {};
-	browser.start();
+	_airplayTargets = {};
+	_browser.start();
+	this.emit('started');
 }
 
 function stop() {
 	debug('stop airplay browser');
 
-	browser.stop();
+	_browser.stop();
+	this.emit('stopped');
 }
 
 function getAvailableAirplayTargets() {
 	debug('get available airplay targets');
 
-	return airplayTargets;
+	return _airplayTargets;
 }
 
 
-module.exports = {
-	start: start
-	, stop: stop
-	, getAvailableAirplayTargets: getAvailableAirplayTargets
-};
+AirplayBrowser.prototype.start = start;
+AirplayBrowser.prototype.stop = stop;
+AirplayBrowser.prototype.getAvailableAirplayTargets =
+	getAvailableAirplayTargets;

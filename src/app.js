@@ -5,7 +5,7 @@ var debug = require('debug')('kaffeeundkuchen')
 
 	, playlist = new Playlist()
 	, spotifyWrapper = new utils.SpotifyWrapper(config)
-	, airplayBrowser = utils.airplayBrowser
+	, airplayBrowser = new utils.AirplayBrowser()
 
 	, webSocket = require('./websocket')
 	, appFactory = require('./factory')

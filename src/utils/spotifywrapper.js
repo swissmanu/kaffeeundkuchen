@@ -1,5 +1,5 @@
 var debug = require('debug')('kaffeeundkuchen.utils.spotifywrapper')
-	, Util = require('util')
+	, util = require('util')
 	, EventEmitter = require('events').EventEmitter
 	, spotify = require('libspotify')
 	, _config
@@ -19,7 +19,7 @@ var SpotifyWrapper = function SpotifyWrapper(config) {
 
 	_config = config;
 };
-Util.inherits(SpotifyWrapper, EventEmitter);
+util.inherits(SpotifyWrapper, EventEmitter);
 
 module.exports = SpotifyWrapper;
 

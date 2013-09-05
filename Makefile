@@ -1,4 +1,4 @@
-TEST_CMD=./node_modules/.bin/mocha --require test/runner.js test/specs/
+TEST_CMD=./node_modules/.bin/mocha --timeout 8000 --require test/runner.js test/specs/
 
 debug:
 	@DEBUG=kaffee* node src/app.js
