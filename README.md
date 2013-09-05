@@ -16,7 +16,7 @@ Calling `npm run setup` inside the projects folder will run the following steps 
 * `npm install`
 * `bower install`
 * `grunt package` for the `angular-latest` bower component
-* `grunt` for the *Kafffee und Kuchen* itself which fulfills the following tasks;
+* `grunt` for the *Kafffee und Kuchen* itself which fulfills the following tasks:
 	* Prepare the client source and provide one minified JavaScript file in `src/client/public/js/kaffeeundkuchen.min.js`
 	* Precompile the SASS style definitions and provide the CSS in `src/client/public/css/kaffeendkuchen.css`
 

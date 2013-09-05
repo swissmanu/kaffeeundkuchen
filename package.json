@@ -41,7 +41,7 @@
     "grunt-shell": "~0.3.1"
   },
   "scripts": {
-    "setup": "npm install && bower install && cd ./bower_components/angular-latest/ && npm install && grunt package",
+    "setup": "npm install && bower install && cd ./bower_components/angular-latest/ && npm install && grunt package && cd ../../ && grunt",
     "start": "node src/app.js",
     "test": "grunt test"
   }
