@@ -6,17 +6,19 @@
 ## Overview
 "Kaffee und Kuchen" is a spotify party player written in JavaScript. The original project is thought to be runned on a Raspberry Pi and supports Apples AirPlay for streaming your music anywhere you want.
 
-## Configuration, build and run
+## Run the first time
 ### Configuration
 Copy `config/config.example.js` to `config/config.js` and modify the configuration to your needs.
 
-### Build
-Running `grunt` from the shell will prepare the following things for you:
+### Setup
+Calling `npm run setup` inside the projects folder will run the following steps automatically:
 
-* Prepare the client source and provide one minified JavaScript file in `src/client/public/js/kaffeeundkuchen.min.js`
-* Precompile the SASS styles and provide the CSS in `src/client/public/css/kaffeendkuchen.css`
-
-I suggest to execute the build on your development machine. The Pi takes more time to complete since its lower CPU power.
+* `npm install`
+* `bower install`
+* `grunt package` for the `angular-latest` bower component
+* `grunt` for the *Kafffee und Kuchen* itself which fulfills the following tasks;
+	* Prepare the client source and provide one minified JavaScript file in `src/client/public/js/kaffeeundkuchen.min.js`
+	* Precompile the SASS style definitions and provide the CSS in `src/client/public/css/kaffeendkuchen.css`
 
 ### Run
 Having all files in place now, just execute `npm start` to fire up *Kaffee und Kuchen*.

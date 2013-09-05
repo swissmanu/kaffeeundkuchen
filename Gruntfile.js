@@ -1,4 +1,3 @@
-var path = require
 
 // TODO grunt install task which runs npm install, bower install and angular-latest build
 
@@ -57,13 +56,53 @@ module.exports = function(grunt) {
 				}
 			}
 		}
+
+		, shell: {
+			options: {
+				stdout: true
+				, stderr: true
+			}
+
+			, debug: {
+				command: 'DEBUG=* node src/app.js'
+			}
+			, jshint: {
+				command: './node_modules/.bin/jshint src/'
+			}
+			, test: {
+				command: './node_modules/.bin/mocha --timeout 8000 --require test/runner.js test/specs/ --reporter spec'
+			}
+			, instrumentForCoverage: {
+				command: 'jscoverage src src-cov'
+			}
+			, testCoveralls: {
+				command: 'KAFFEEUNDKUCHEN_COVERAGE=1 ./node_modules/.bin/mocha --timeout 8000 --require test/runner.js test/specs/ --reporter mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js src && rm -fr ./src-cov'
+			}
+
+		}
 	});
 
 	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-sass');
+	grunt.loadNpmTasks('grunt-shell');
 
-	grunt.registerTask('default', ['browserify', 'concat:build', 'uglify', 'sass']);
-	grunt.registerTask('dev', ['browserify', 'concat:dev', 'sass']);
+
+	grunt.registerTask('debug', [
+		'browserify', 'concat:dev', 'sass', 'shell:debug'
+	]);
+	grunt.registerTask('test', [
+		'shell:test'
+	]);
+	grunt.registerTask('test-coveralls', [
+		'shell:instrumentForCoverage', 'shell:testCoveralls'
+	])
+	grunt.registerTask('lint', [
+		'shell:jshint'
+	]);
+
+	grunt.registerTask('default', [
+		'browserify', 'concat:build', 'uglify', 'sass'
+	]);
 };

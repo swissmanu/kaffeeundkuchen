@@ -25,7 +25,7 @@
     "debug": "0.7.2",
     "engine.io": "0.7.9",
     "engine.io-client": "0.7.9",
-    "mdns2": "~2.1.1",
+    "mdns2": "~2.1.1"
   },
   "devDependencies": {
     "mocha": "~1.8.2",
@@ -38,10 +38,11 @@
     "grunt-contrib-uglify": "~0.2.2",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-sass": "~0.5.0",
-    "grunt-contrib-compass": "~0.5.0"
+    "grunt-shell": "~0.3.1"
   },
   "scripts": {
+    "setup": "npm install && bower install && cd ./bower_components/angular-latest/ && npm install && grunt package",
     "start": "node src/app.js",
-    "test": "make test"
+    "test": "grunt test"
   }
 }
