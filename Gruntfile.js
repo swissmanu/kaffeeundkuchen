@@ -49,6 +49,7 @@ module.exports = function(grunt) {
 			, build: {
 				files: {
 					'src/client/public/css/<%= pkg.name %>.css': 'src/client/sass/main.scss'
+					, 'src/client/public/css/gumby.css': 'src/client/sass/gumby/gumby.css'
 					, 'src/client/public/css/font-awesome.css': 'src/client/sass/fontawesome/font-awesome.scss'
 				}
 			}

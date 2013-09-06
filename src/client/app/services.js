@@ -41,6 +41,10 @@ var angular = require('./vendor/angular-shim.js');
 						this.on('data', self._handleData.bind(self));
 					});
 
+					primus.writeAndWait('bla', function(data) {
+						console.log('yeah!');
+					});
+
 					self.primus = primus;
 				}
 			}

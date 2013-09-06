@@ -21,6 +21,15 @@ var WebsocketServer = function WebsocketServer(httpServer) {
 	_primus = new Primus(httpServer, { transformer: 'sockjs' });
 	_primus.use('responder', PrimusResponder);
 	_primus.on('connection', handleNewConnection);
+
+
+	_primus.on('request', function(data, callback) {
+		console.log('--- GOT RESPONDER REQUEST', data);
+
+		setTimeout(function() {
+			callback('hi there responder client!');
+		}, 2000);
+	});
 };
 util.inherits(WebsocketServer, EventEmitter);
 
@@ -44,6 +53,8 @@ function publish(topic, message, spark) {
 
 function handleData(envelope) {
 	debug('received data from spark');
+
+	console.log(envelope);
 
 	var topic = envelope.topic || '*'
 		, message = envelope.message || envelope;
