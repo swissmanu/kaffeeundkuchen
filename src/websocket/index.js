@@ -1,36 +1,67 @@
 var debug = require('debug')('kaffeeundkuchen.websocket')
-	, engine = require('engine.io');
+	, Primus = require('primus')
+	, PrimusResponder = require('primus-responder')
+	, EventEmitter = require('events').EventEmitter
+	, util = require('util')
+
+	, _primus
+	, _sockets;
 
 
-function handleMessage(data) {
-	debug('received websocket message');
-	console.log(data);
+
+/** Class: WebsocketServer
+ * Uses `Primus` to building a websocket server for the clients.
+ */
+var WebsocketServer = function WebsocketServer(httpServer) {
+	debug('inititialize websocket server');
+
+	EventEmitter.call(this);
+	_sockets = [];
+
+	_primus = new Primus(httpServer, { transformer: 'sockjs' });
+	_primus.use('responder', PrimusResponder);
+	_primus.on('connection', handleNewConnection);
+};
+util.inherits(WebsocketServer, EventEmitter);
+
+module.exports = WebsocketServer;
+
+
+function publish(topic, message, spark) {
+	debug('publish message to topic ' + topic);
+
+	var envelope = {
+			topic: topic
+			, message: message
+		};
+
+	if(spark) {
+		spark.write(envelope);
+	} else {
+		_primus.write(envelope);
+	}
+}
+
+function handleData(envelope) {
+	debug('received data from spark');
+
+	var topic = envelope.topic || '*'
+		, message = envelope.message || envelope;
+
+	this.emit(topic, message);
 }
 
 function handleClose() {
-	debug('closed websocket connection');
+	debug('spark closed connection');
 }
 
-function handleNewConnection(socket) {
-	debug('new websocket connection');
-	socket.on('message', handleMessage);
-	socket.on('close', handleClose);
+function handleNewConnection(spark) {
+	debug('new spark connected');
 
-	socket.send('hi there!');
+	spark.on('data', handleData);
+	spark.on('close', handleClose);
+
+	publish('common', 'hi there!', spark);
 }
 
-/** Function: initWebSocket
- * Attaches the Engine.IO WebSocket abstraction to any passed httpServer
- * instance.
- *
- * Parameters:
- *     (http.Server) httpServer - Node.JS HTTP Server instance
- */
-function initWebSocket(httpServer) {
-	debug('inititialize websocket module');
-
-	var websocketServer = engine.attach(httpServer);
-	websocketServer.on('connection', handleNewConnection);
-}
-
-module.exports = initWebSocket;
+WebsocketServer.prototype.publish = publish;

@@ -23,9 +23,9 @@
     "express": "~3.0.6",
     "libspotify": "git://github.com/swissmanu/node-libspotify.git#album-cover",
     "debug": "0.7.2",
-    "engine.io": "0.7.9",
-    "engine.io-client": "0.7.9",
-    "mdns2": "~2.1.1"
+    "mdns2": "~2.1.1",
+    "primus": "~1.4.0",
+    "sockjs": "~0.3.7"
   },
   "devDependencies": {
     "mocha": "~1.8.2",

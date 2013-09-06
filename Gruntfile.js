@@ -1,6 +1,3 @@
-
-// TODO grunt install task which runs npm install, bower install and angular-latest build
-
 module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json')
@@ -8,10 +5,7 @@ module.exports = function(grunt) {
 		, browserify: {
 			build: {
 				src: [
-					'bower_components/angular-latest/build/angular.js'
-					, 'bower_components/zepto/zepto.js'
-					, 'src/client/app/vendor/gumby.js'
-					, 'src/client/app/**/*.js'
+					'src/client/app/**/*.js'
 				]
 				, dest: 'tmp/js/client-browserified.js'
 			}
@@ -20,14 +14,14 @@ module.exports = function(grunt) {
 		, concat: {
 			build: {
 				src: [
-					'node_modules/engine.io-client/engine.io.js'
+					'tmp/js/primus.js'
 					, 'tmp/js/client-browserified.js'
 				]
 				, dest: 'tmp/js/concat.js'
 			}
 			, dev: {
 				src: [
-					'node_modules/engine.io-client/engine.io.js'
+					'tmp/js/primus.js'
 					, 'tmp/js/client-browserified.js'
 				]
 				, dest: 'src/client/public/js/<%= pkg.name %>.min.js'
@@ -85,15 +79,29 @@ module.exports = function(grunt) {
 		}
 	});
 
+	/** Task: preparePrimus
+	 * Creates an instance of the Primus websocket wrapper and saves its client
+	 * libary into a temporary file `tmp/js/primus.js` which then can be taken
+	 * further for packaging.
+	 */
+	grunt.registerTask('preparePrimus', function() {
+		var Primus = require('primus')
+			, httpServer = require('http').Server
+			, PrimusResponder = require('primus-responder')
+			, primus = new Primus(new httpServer(), { transformer: 'sockjs' });
+
+		primus.use('responder', PrimusResponder);
+		grunt.file.write('tmp/js/primus.js', primus.library());
+	});
+
 	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-sass');
 	grunt.loadNpmTasks('grunt-shell');
 
-
 	grunt.registerTask('debug', [
-		'browserify', 'concat:dev', 'sass', 'shell:debug'
+		'browserify', 'preparePrimus', 'concat:dev', 'sass', 'shell:debug'
 	]);
 	grunt.registerTask('test', [
 		'shell:test'
@@ -106,6 +114,8 @@ module.exports = function(grunt) {
 	]);
 
 	grunt.registerTask('default', [
-		'browserify', 'concat:build', 'uglify', 'sass'
+		'browserify', 'preparePrimus', 'concat:build', 'uglify', 'sass'
 	]);
+
+
 };

@@ -37,14 +37,3 @@ var angular = require('./vendor/angular-shim.js');
 	]);
 
 })();
-
-var socket = new eio.Socket('ws://localhost:8080/');
-socket.on('open', function() {
-	socket.on('message', function(data) {
-		console.log('got message! ' + data);
-		socket.send(data); // echo
-	});
-	socket.on('close', function() {
-		console.log('socket closed!');
-	});
-});

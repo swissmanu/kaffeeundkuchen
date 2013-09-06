@@ -2,10 +2,14 @@ var angular = require('./vendor/angular-shim.js');
 
 (function() {
 
-	function NowPlayingController(/*$scope, $routeParams*/) {
+	function NowPlayingController($scope, websocketService) {
+		websocketService.subscribe('playerstatus', function(data) {
+			console.log(data);
+		});
 
+		websocketService.publish('*', 'hi there!');
 	}
-	NowPlayingController.$inject = ['$scope'];
+	NowPlayingController.$inject = ['$scope', 'websocketService'];
 
 	function PlaylistController($scope) {
 		$scope.tracks = [{
