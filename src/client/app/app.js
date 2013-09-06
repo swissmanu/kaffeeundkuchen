@@ -26,6 +26,10 @@ var angular = require('./vendor/angular-shim.js');
 				templateUrl: 'partials/search.html'
 				, controller: 'SearchController'
 			})
+			.when('/settings', {
+				templateUrl: 'partials/settings.html'
+				//, controller: 'SearchController'
+			})
 			.otherwise({ redirectTo: '/' });
 
 			$locationProvider.html5Mode(true);

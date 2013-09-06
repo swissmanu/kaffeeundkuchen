@@ -8,8 +8,11 @@ module.exports = function(grunt) {
 		, browserify: {
 			build: {
 				src: [
-					'bower_components/angular-latest/build/angular.min.js'
-					, 'src/client/app/**/*.js']
+					'bower_components/angular-latest/build/angular.js'
+					, 'bower_components/zepto/zepto.js'
+					, 'src/client/app/vendor/gumby.js'
+					, 'src/client/app/**/*.js'
+				]
 				, dest: 'tmp/js/client-browserified.js'
 			}
 		}
@@ -64,7 +67,7 @@ module.exports = function(grunt) {
 			}
 
 			, debug: {
-				command: 'DEBUG=* node src/app.js'
+				command: 'DEBUG=kaffeeundkuchen.* npm start'
 			}
 			, jshint: {
 				command: './node_modules/.bin/jshint src/'

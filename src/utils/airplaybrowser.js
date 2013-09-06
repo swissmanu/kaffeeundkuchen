@@ -22,6 +22,8 @@ module.exports = AirplayBrowser;
 function handleServiceUp(service) {
 	debug('new airplay target discovered');
 
+	console.log(service);
+
 	var airplayTarget = {
 		name: service.name
 		, host: service.host

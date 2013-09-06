@@ -28,6 +28,7 @@
     "tests"
   ],
   "dependencies": {
-    "angular-latest": "~1.1.5"
+    "angular-latest": "~1.1.5",
+    "zepto": "~1.0.0"
   }
 }
