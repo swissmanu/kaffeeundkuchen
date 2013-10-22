@@ -28,7 +28,8 @@
     "tests"
   ],
   "dependencies": {
-    "angular-latest": "~1.1.5",
+    "angular": "1.2.0-rc.3",
+    "angular-route": "1.2.0-rc.3",
     "zepto": "~1.0.0"
   }
 }

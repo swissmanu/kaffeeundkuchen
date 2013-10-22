@@ -8,6 +8,7 @@ var angular = require('./vendor/angular-shim.js');
 		'kuk.controllers'
 		, 'kuk.services'
 		, 'kuk.directives'
+		, 'ngRoute'
 	]);
 
 	var app = angular.module('kuk');

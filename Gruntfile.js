@@ -62,7 +62,7 @@ module.exports = function(grunt) {
 			}
 
 			, debug: {
-				command: 'DEBUG=kaffeeundkuchen.* npm start'
+				command: 'DEBUG=kaffeeundkuchen* npm start'
 			}
 			, jshint: {
 				command: './node_modules/.bin/jshint src/'
