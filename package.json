@@ -25,7 +25,7 @@
     "debug": "0.7.2",
     "mdns2": "~2.1.1",
     "primus": "~1.4.0",
-    "primus-responder": "git://github.com/swissmanu/primus-responder.git",
+    "primus-responder": "~1.0.0",
     "sockjs": "~0.3.7"
   },
   "devDependencies": {

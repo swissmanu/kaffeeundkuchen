@@ -9,6 +9,29 @@ var debug = require('debug')('kaffeeundkuchen.websocket')
 
 
 
+function handleData(envelope) {
+	debug('received data from spark');
+
+	console.log(envelope);
+
+	var topic = envelope.topic || '*'
+		, message = envelope.message || envelope;
+
+	this.emit(topic, message);
+}
+
+function handleClose() {
+	debug('spark closed connection');
+}
+
+function handleNewConnection(spark) {
+	debug('new spark connected');
+
+	spark.on('data', handleData);
+	spark.on('close', handleClose);
+}
+
+
 /** Class: WebsocketServer
  * Uses `Primus` to building a websocket server for the clients.
  */
@@ -22,12 +45,10 @@ var WebsocketServer = function WebsocketServer(httpServer) {
 	_primus.use('responder', PrimusResponder);
 	_primus.on('connection', handleNewConnection);
 
-
 	_primus.on('request', function(data, callback) {
-		console.log('--- GOT RESPONDER REQUEST', data);
-
+		console.log('GOT: ', data);
 		setTimeout(function() {
-			callback('hi there responder client!');
+			callback('SERVER RESPONDED!');
 		}, 2000);
 	});
 };
@@ -49,30 +70,6 @@ function publish(topic, message, spark) {
 	} else {
 		_primus.write(envelope);
 	}
-}
-
-function handleData(envelope) {
-	debug('received data from spark');
-
-	console.log(envelope);
-
-	var topic = envelope.topic || '*'
-		, message = envelope.message || envelope;
-
-	this.emit(topic, message);
-}
-
-function handleClose() {
-	debug('spark closed connection');
-}
-
-function handleNewConnection(spark) {
-	debug('new spark connected');
-
-	spark.on('data', handleData);
-	spark.on('close', handleClose);
-
-	publish('common', 'hi there!', spark);
 }
 
 WebsocketServer.prototype.publish = publish;

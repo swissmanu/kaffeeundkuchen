@@ -41,8 +41,11 @@ var angular = require('./vendor/angular-shim.js');
 						this.on('data', self._handleData.bind(self));
 					});
 
-					primus.writeAndWait('bla', function(data) {
-						console.log('yeah!');
+					primus.on('request', function(data, callback) {
+						console.log('GOT: ' + data);
+						setTimeout(function() {
+							callback('bla');
+						}, 2000);
 					});
 
 					self.primus = primus;
@@ -52,8 +55,6 @@ var angular = require('./vendor/angular-shim.js');
 			, _handleData: function handleData(envelope) {
 				var topic = envelope.topic || '*'
 					, message = envelope.message || envelope;
-
-				console.log('WS: ', topic, message, envelope);
 
 				this.publish(topic, message);
 			}

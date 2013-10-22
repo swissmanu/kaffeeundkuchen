@@ -7,7 +7,7 @@ var angular = require('./vendor/angular-shim.js');
 			console.log(data);
 		});
 
-		websocketService.publish('*', 'hi there!');
+		//websocketService.publish('*', 'hi there!');
 	}
 	NowPlayingController.$inject = ['$scope', 'websocketService'];
 
